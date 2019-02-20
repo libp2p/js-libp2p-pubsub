@@ -35,7 +35,7 @@ class PubsubBaseProtocol extends EventEmitter {
     /**
      * Map of topics to which peers are subscribed to
      *
-     * @type {Map<string, Peer>}
+     * @type {Map<string, Set<Peer>>}
      */
     this.topics = new Map()
 
