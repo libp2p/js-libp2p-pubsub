@@ -6,8 +6,6 @@ chai.use(require('dirty-chai'))
 chai.use(require('chai-spies'))
 const expect = chai.expect
 const sinon = require('sinon')
-const series = require('async/series')
-const parallel = require('async/parallel')
 
 const PubsubBaseProtocol = require('../src')
 const { randomSeqno } = require('../src/utils')
@@ -47,57 +45,53 @@ describe('pubsub base protocol', () => {
     let psA
     let psB
 
-    before((done) => {
-      series([
-        (cb) => createNode(cb),
-        (cb) => createNode(cb)
-      ], (err, nodes) => {
-        if (err) {
-          return done(err)
-        }
-        nodeA = nodes[0]
-        nodeB = nodes[1]
-        done()
-      })
+    before(async () => {
+      [nodeA, nodeB] = await Promise.all([
+        createNode(),
+        createNode()
+      ])
     })
 
-    before('mount the pubsub protocol', (done) => {
+    before('mount the pubsub protocol', () => {
       psA = new PubsubImplementation(nodeA)
       psB = new PubsubImplementation(nodeB)
 
-      setTimeout(() => {
-        expect(psA.peers.size).to.be.eql(0)
-        expect(psB.peers.size).to.be.eql(0)
-        done()
-      }, 50)
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          expect(psA.peers.size).to.be.eql(0)
+          expect(psB.peers.size).to.be.eql(0)
+          resolve()
+        }, 50)
+      })
     })
 
-    before('start both Pubsub', (done) => {
-      parallel([
-        (cb) => psA.start(cb),
-        (cb) => psB.start(cb)
-      ], done)
+    before('start both Pubsub', () => {
+      return Promise.all([
+        psA.start(),
+        psB.start()
+      ])
     })
 
-    after((done) => {
-      parallel([
-        (cb) => nodeA.stop(cb),
-        (cb) => nodeB.stop(cb)
-      ], done)
+    after(() => {
+      return Promise.all([
+        nodeA.stop(),
+        nodeB.stop()
+      ])
     })
 
-    it('Dial from nodeA to nodeB', (done) => {
-      series([
-        (cb) => nodeA.dial(nodeB.peerInfo, cb),
-        (cb) => setTimeout(() => {
+    it('Dial from nodeA to nodeB', async () => {
+      await nodeA.dial(nodeB.peerInfo)
+
+      return new Promise((resolve) => {
+        setTimeout(() => {
           expect(psA.peers.size).to.equal(1)
           expect(psB.peers.size).to.equal(1)
-          cb()
+          resolve()
         }, 1000)
-      ], done)
+      })
     })
 
-    it('_buildMessage normalizes and signs messages', (done) => {
+    it('_buildMessage normalizes and signs messages', async () => {
       const message = {
         from: psA.peerId.id,
         data: 'hello',
@@ -105,17 +99,13 @@ describe('pubsub base protocol', () => {
         topicIDs: ['test-topic']
       }
 
-      psA._buildMessage(message, (err, signedMessage) => {
-        expect(err).to.not.exist()
+      const signedMessage = await psA._buildMessage(message)
+      const verified = await psA.validate(signedMessage)
 
-        psA.validate(signedMessage, (err, verified) => {
-          expect(verified).to.eql(true)
-          done(err)
-        })
-      })
+      expect(verified).to.eql(true)
     })
 
-    it('validate with strict signing off will validate a present signature', (done) => {
+    it('validate with strict signing off will validate a present signature', async () => {
       const message = {
         from: psA.peerId.id,
         data: 'hello',
@@ -125,17 +115,13 @@ describe('pubsub base protocol', () => {
 
       sinon.stub(psA, 'strictSigning').value(false)
 
-      psA._buildMessage(message, (err, signedMessage) => {
-        expect(err).to.not.exist()
+      const signedMessage = await psA._buildMessage(message)
+      const verified = await psA.validate(signedMessage)
 
-        psA.validate(signedMessage, (err, verified) => {
-          expect(verified).to.eql(true)
-          done(err)
-        })
-      })
+      expect(verified).to.eql(true)
     })
 
-    it('validate with strict signing requires a signature', (done) => {
+    it('validate with strict signing requires a signature', async () => {
       const message = {
         from: psA.peerId.id,
         data: 'hello',
@@ -143,10 +129,9 @@ describe('pubsub base protocol', () => {
         topicIDs: ['test-topic']
       }
 
-      psA.validate(message, (err, verified) => {
-        expect(verified).to.eql(false)
-        done(err)
-      })
+      const verified = await psA.validate(message)
+
+      expect(verified).to.eql(false)
     })
   })
 
@@ -156,45 +141,39 @@ describe('pubsub base protocol', () => {
     let psA
     let psB
 
-    before((done) => {
-      series([
-        (cb) => createNode(cb),
-        (cb) => createNode(cb)
-      ], (cb, nodes) => {
-        nodeA = nodes[0]
-        nodeB = nodes[1]
-        nodeA.dial(nodeB.peerInfo, () => setTimeout(done, 1000))
-      })
+    before(async () => {
+      [nodeA, nodeB] = await Promise.all([
+        createNode(),
+        createNode()
+      ])
+
+      await nodeA.dial(nodeB.peerInfo)
+      await new Promise((resolve) => setTimeout(resolve, 1000))
     })
 
-    after((done) => {
-      parallel([
-        (cb) => nodeA.stop(cb),
-        (cb) => nodeB.stop(cb)
-      ], done)
+    after(() => {
+      return Promise.all([
+        nodeA.stop(),
+        nodeB.stop()
+      ])
     })
 
-    it('dial on pubsub on mount', (done) => {
+    it('dial on pubsub on mount', async () => {
       psA = new PubsubImplementation(nodeA)
       psB = new PubsubImplementation(nodeB)
 
-      parallel([
-        (cb) => psA.start(cb),
-        (cb) => psB.start(cb)
-      ], next)
+      await Promise.all([
+        psA.start(),
+        psB.start()
+      ])
 
-      function next () {
-        expect(psA.peers.size).to.equal(1)
-        expect(psB.peers.size).to.equal(1)
-        done()
-      }
+      expect(psA.peers.size).to.equal(1)
+      expect(psB.peers.size).to.equal(1)
     })
 
-    it('stop both pubsubs', (done) => {
-      parallel([
-        (cb) => psA.stop(cb),
-        (cb) => psB.stop(cb)
-      ], done)
+    it('stop both pubsubs', () => {
+      psA.stop()
+      psB.stop()
     })
   })
 
@@ -205,57 +184,50 @@ describe('pubsub base protocol', () => {
     let psA
     let psB
 
-    before((done) => {
+    before(async () => {
+      // sandbox = chai.spy.sandbox()
+      [nodeA, nodeB] = await Promise.all([
+        createNode(),
+        createNode()
+      ])
+      // Put node B in node A's peer book
+      nodeA.peerBook.put(nodeB.peerInfo)
+
+      psA = new PubsubImplementation(nodeA)
+      psB = new PubsubImplementation(nodeB)
+
       sandbox = chai.spy.sandbox()
 
-      series([
-        (cb) => createNode(cb),
-        (cb) => createNode(cb)
-      ], (err, nodes) => {
-        if (err) return done(err)
-
-        nodeA = nodes[0]
-        nodeB = nodes[1]
-
-        // Put node B in node A's peer book
-        nodeA.peerBook.put(nodeB.peerInfo)
-
-        psA = new PubsubImplementation(nodeA)
-        psB = new PubsubImplementation(nodeB)
-
-        psB.start(done)
-      })
+      return psB.start()
     })
 
-    after((done) => {
+    after(() => {
       sandbox.restore()
 
-      parallel([
-        (cb) => nodeA.stop(cb),
-        (cb) => nodeB.stop(cb)
-      ], (ignoreErr) => {
-        done()
-      })
+      return Promise.all([
+        nodeA.stop(),
+        nodeB.stop()
+      ])
     })
 
-    it('does not dial twice to same peer', (done) => {
+    it('does not dial twice to same peer', async () => {
       sandbox.on(psA, ['_onDial'])
 
       // When node A starts, it will dial all peers in its peer book, which
       // is just peer B
-      psA.start(startComplete)
+      await psA.start()
 
       // Simulate a connection coming in from peer B at the same time. This
       // causes pubsub to dial peer B
       nodeA.emit('peer:connect', nodeB.peerInfo)
 
-      function startComplete () {
+      return new Promise((resolve) => {
         // Check that only one dial was made
         setTimeout(() => {
           expect(psA._onDial).to.have.been.called.once()
-          done()
+          resolve()
         }, 1000)
-      }
+      })
     })
   })
 
@@ -266,40 +238,33 @@ describe('pubsub base protocol', () => {
     let psA
     let psB
 
-    before((done) => {
+    before(async () => {
+      // sandbox = chai.spy.sandbox()
+      [nodeA, nodeB] = await Promise.all([
+        createNode(),
+        createNode()
+      ])
+      // Put node B in node A's peer book
+      nodeA.peerBook.put(nodeB.peerInfo)
+
+      psA = new PubsubImplementation(nodeA)
+      psB = new PubsubImplementation(nodeB)
+
       sandbox = chai.spy.sandbox()
 
-      series([
-        (cb) => createNode(cb),
-        (cb) => createNode(cb)
-      ], (err, nodes) => {
-        if (err) return done(err)
-
-        nodeA = nodes[0]
-        nodeB = nodes[1]
-
-        // Put node B in node A's peer book
-        nodeA.peerBook.put(nodeB.peerInfo)
-
-        psA = new PubsubImplementation(nodeA)
-        psB = new PubsubImplementation(nodeB)
-
-        psB.start(done)
-      })
+      return psB.start()
     })
 
-    after((done) => {
+    after(() => {
       sandbox.restore()
 
-      parallel([
-        (cb) => nodeA.stop(cb),
-        (cb) => nodeB.stop(cb)
-      ], (ignoreErr) => {
-        done()
-      })
+      return Promise.all([
+        nodeA.stop(),
+        nodeB.stop()
+      ])
     })
 
-    it('can dial again after error', (done) => {
+    it('can dial again after error', async () => {
       let firstTime = true
       const dialProtocol = psA.libp2p.dialProtocol.bind(psA.libp2p)
       sandbox.on(psA.libp2p, 'dialProtocol', (peerInfo, multicodec, cb) => {
@@ -315,19 +280,19 @@ describe('pubsub base protocol', () => {
 
       // When node A starts, it will dial all peers in its peer book, which
       // is just peer B
-      psA.start(startComplete)
+      await psA.start()
 
-      function startComplete () {
-        // Simulate a connection coming in from peer B. This causes pubsub
-        // to dial peer B
-        nodeA.emit('peer:connect', nodeB.peerInfo)
+      // Simulate a connection coming in from peer B. This causes pubsub
+      // to dial peer B
+      nodeA.emit('peer:connect', nodeB.peerInfo)
 
+      return new Promise((resolve) => {
         // Check that both dials were made
         setTimeout(() => {
           expect(psA.libp2p.dialProtocol).to.have.been.called.twice()
-          done()
+          resolve()
         }, 1000)
-      }
+      })
     })
   })
 
@@ -338,40 +303,34 @@ describe('pubsub base protocol', () => {
     let psA
     let psB
 
-    before((done) => {
+    before(async () => {
+      // sandbox = chai.spy.sandbox()
+      [nodeA, nodeB] = await Promise.all([
+        createNode(),
+        createNode()
+      ])
+
+      psA = new PubsubImplementation(nodeA)
+      psB = new PubsubImplementation(nodeB)
+
       sandbox = chai.spy.sandbox()
 
-      series([
-        (cb) => createNode(cb),
-        (cb) => createNode(cb)
-      ], (err, nodes) => {
-        if (err) return done(err)
-
-        nodeA = nodes[0]
-        nodeB = nodes[1]
-
-        psA = new PubsubImplementation(nodeA)
-        psB = new PubsubImplementation(nodeB)
-
-        parallel([
-          (cb) => psA.start(cb),
-          (cb) => psB.start(cb)
-        ], done)
-      })
+      return Promise.all([
+        psA.start(),
+        psB.start()
+      ])
     })
 
-    after((done) => {
+    after(() => {
       sandbox.restore()
 
-      parallel([
-        (cb) => nodeA.stop(cb),
-        (cb) => nodeB.stop(cb)
-      ], (ignoreErr) => {
-        done()
-      })
+      return Promise.all([
+        nodeA.stop(),
+        nodeB.stop()
+      ])
     })
 
-    it('does not process dial after stop', (done) => {
+    it('does not process dial after stop', () => {
       sandbox.on(psA, ['_onDial'])
 
       // Simulate a connection coming in from peer B at the same time. This
@@ -379,11 +338,13 @@ describe('pubsub base protocol', () => {
       nodeA.emit('peer:connect', nodeB.peerInfo)
 
       // Stop pubsub before the dial can complete
-      psA.stop(() => {
+      psA.stop()
+
+      return new Promise((resolve) => {
         // Check that the dial was not processed
         setTimeout(() => {
           expect(psA._onDial).to.not.have.been.called()
-          done()
+          resolve()
         }, 1000)
       })
     })

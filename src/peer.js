@@ -3,7 +3,6 @@
 const lp = require('pull-length-prefixed')
 const Pushable = require('pull-pushable')
 const pull = require('pull-stream')
-const setImmediate = require('async/setImmediate')
 const EventEmitter = require('events')
 
 const { RPC } = require('./message')
@@ -162,11 +161,9 @@ class Peer extends EventEmitter {
 
   /**
    * Closes the open connection to peer
-   *
-   * @param {Function} callback
-   * @returns {undefined}
+   * @returns {void}
    */
-  close (callback) {
+  close () {
     // Force removal of peer
     this._references = 1
 
@@ -175,12 +172,9 @@ class Peer extends EventEmitter {
       this.stream.end()
     }
 
-    setImmediate(() => {
-      this.conn = null
-      this.stream = null
-      this.emit('close')
-      callback()
-    })
+    this.conn = null
+    this.stream = null
+    this.emit('close')
   }
 }
 

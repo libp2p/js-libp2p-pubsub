@@ -3,7 +3,6 @@
 const EventEmitter = require('events')
 const pull = require('pull-stream/pull')
 const empty = require('pull-stream/sources/empty')
-const asyncEach = require('async/each')
 const TimeCache = require('time-cache')
 const debug = require('debug')
 const errcode = require('err-code')
@@ -15,8 +14,6 @@ const {
   verifySignature
 } = require('./message/sign')
 const utils = require('./utils')
-
-const nextTick = require('async/nextTick')
 
 /**
  * PubsubBaseProtocol handles the peers and connections logic for pubsub routers
@@ -136,47 +133,49 @@ class PubsubBaseProtocol extends EventEmitter {
    * Dial a received peer.
    * @private
    * @param {PeerInfo} peerInfo peer info
-   * @param {function} callback
-   * @returns {void}
+   * @returns {Promise}
    */
-  _dialPeer (peerInfo, callback) {
-    callback = callback || function noop () { }
+  _dialPeer (peerInfo) {
     const idB58Str = peerInfo.id.toB58String()
 
     // If already have a PubSub conn, ignore
     const peer = this.peers.get(idB58Str)
     if (peer && peer.isConnected) {
-      return nextTick(() => callback())
+      return Promise.resolve()
     }
 
     // If already dialing this peer, ignore
     if (this._dials.has(idB58Str)) {
       this.log('already dialing %s, ignoring dial attempt', idB58Str)
-      return nextTick(() => callback())
+      return Promise.resolve()
     }
     this._dials.add(idB58Str)
 
     this.log('dialing %s', idB58Str)
-    this.libp2p.dialProtocol(peerInfo, this.multicodec, (err, conn) => {
-      this.log('dial to %s complete', idB58Str)
 
-      // If the dial is not in the set, it means that pubsub has been
-      // stopped
-      const pubsubStopped = !this._dials.has(idB58Str)
-      this._dials.delete(idB58Str)
+    return new Promise((resolve) => {
+      this.libp2p.dialProtocol(peerInfo, this.multicodec, (err, conn) => {
+        this.log('dial to %s complete', idB58Str)
 
-      if (err) {
-        this.log.err(err)
-        return callback()
-      }
+        // If the dial is not in the set, it means that pubsub has been
+        // stopped
+        const pubsubStopped = !this._dials.has(idB58Str)
+        this._dials.delete(idB58Str)
 
-      // pubsub has been stopped, so we should just bail out
-      if (pubsubStopped) {
-        this.log('pubsub was stopped, not processing dial to %s', idB58Str)
-        return callback()
-      }
+        if (err) {
+          this.log.err(err)
+          return resolve()
+        }
 
-      this._onDial(peerInfo, conn, callback)
+        // pubsub has been stopped, so we should just bail out
+        if (pubsubStopped) {
+          this.log('pubsub was stopped, not processing dial to %s', idB58Str)
+          return resolve()
+        }
+
+        this._onDial(peerInfo, conn)
+        resolve()
+      })
     })
   }
 
@@ -185,16 +184,13 @@ class PubsubBaseProtocol extends EventEmitter {
    * @private
    * @param {PeerInfo} peerInfo peer info
    * @param {Connection} conn connection to the peer
-   * @param {function} callback
    */
-  _onDial (peerInfo, conn, callback) {
+  _onDial (peerInfo, conn) {
     const idB58Str = peerInfo.id.toB58String()
     this.log('connected', idB58Str)
 
     const peer = this._addPeer(new Peer(peerInfo))
     peer.attachConnection(conn)
-
-    nextTick(() => callback())
   }
 
   /**
@@ -252,14 +248,14 @@ class PubsubBaseProtocol extends EventEmitter {
    * Normalizes the message and signs it, if signing is enabled
    *
    * @param {Message} message
-   * @param {function(Error, Message)} callback
+   * @returns {Message}
    */
-  _buildMessage (message, callback) {
+  _buildMessage (message) {
     const msg = utils.normalizeOutRpcMessage(message)
     if (this.peerId) {
-      signMessage(this.peerId, msg, callback)
+      return signMessage(this.peerId, msg)
     } else {
-      nextTick(callback, null, msg)
+      return message
     }
   }
 
@@ -269,11 +265,10 @@ class PubsubBaseProtocol extends EventEmitter {
    * @abstract
    * @param {Array<string>|string} topics
    * @param {Array<any>|any} messages
-   * @param {function(Error)} callback
    * @returns {undefined}
    *
    */
-  publish (topics, messages, callback) {
+  publish (topics, messages) {
     throw errcode('publish must be implemented by the subclass', 'ERR_NOT_IMPLEMENTED')
   }
 
@@ -302,14 +297,11 @@ class PubsubBaseProtocol extends EventEmitter {
   /**
    * Mounts the pubsub protocol onto the libp2p node and sends our
    * subscriptions to every peer conneceted
-   *
-   * @param {Function} callback
-   * @returns {undefined}
-   *
+   * @returns {Promise}
    */
-  start (callback) {
+  async start () {
     if (this.started) {
-      return nextTick(() => callback(new Error('already started')))
+      throw errcode(new Error('already started'), 'ERR_ALREADY_STARTED')
     }
     this.log('starting')
 
@@ -321,25 +313,19 @@ class PubsubBaseProtocol extends EventEmitter {
     // Dial already connected peers
     const peerInfos = Object.values(this.libp2p.peerBook.getAll())
 
-    asyncEach(peerInfos, (peer, cb) => this._dialPeer(peer, cb), (err) => {
-      nextTick(() => {
-        this.log('started')
-        this.started = true
-        callback(err)
-      })
-    })
+    await Promise.all(peerInfos.map((peer) => this._dialPeer(peer)))
+
+    this.log('started')
+    this.started = true
   }
 
   /**
    * Unmounts the pubsub protocol and shuts down every connection
-   *
-   * @param {Function} callback
-   * @returns {undefined}
-   *
+   * @returns {void}
    */
-  stop (callback) {
+  stop () {
     if (!this.started) {
-      return nextTick(() => callback(new Error('not started yet')))
+      throw errcode(new Error('not started yet'), 'ERR_NOT_STARTED_YET')
     }
 
     this.libp2p.unhandle(this.multicodec)
@@ -349,40 +335,30 @@ class PubsubBaseProtocol extends EventEmitter {
     this._dials = new Set()
 
     this.log('stopping')
-    asyncEach(this.peers.values(), (peer, cb) => peer.close(cb), (err) => {
-      if (err) {
-        return callback(err)
-      }
+    this.peers.forEach((peer) => peer.close())
 
-      this.log('stopped')
-      this.peers = new Map()
-      this.started = false
-      callback()
-    })
+    this.log('stopped')
+    this.peers = new Map()
+    this.started = false
   }
 
   /**
    * Validates the given message. The signature will be checked for authenticity.
    * @param {rpc.RPC.Message} message
-   * @param {function(Error, Boolean)} callback
-   * @returns {void}
+   * @returns {Promise<Boolean>}
    */
-  validate (message, callback) {
+  async validate (message) { // eslint-disable-line require-await
     // If strict signing is on and we have no signature, abort
     if (this.strictSigning && !message.signature) {
       this.log('Signing required and no signature was present, dropping message:', message)
-      return nextTick(callback, null, false)
+      return Promise.resolve(false)
     }
 
     // Check the message signature if present
     if (message.signature) {
-      verifySignature(message, (err, valid) => {
-        if (err) return callback(err)
-        callback(null, valid)
-      })
+      return verifySignature(message)
     } else {
-      // The message is valid
-      nextTick(callback, null, true)
+      return Promise.resolve(true)
     }
   }
 }
