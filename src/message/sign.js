@@ -11,25 +11,20 @@ const SignPrefix = Buffer.from('libp2p-pubsub:')
  * @param {Message} message
  * @returns {Promise<Message>}
  */
-function signMessage (peerId, message) {
+async function signMessage (peerId, message) {
   // Get the message in bytes, and prepend with the pubsub prefix
   const bytes = Buffer.concat([
     SignPrefix,
     Message.encode(message)
   ])
 
-  return new Promise((resolve, reject) => {
-    // Sign the bytes with the private key
-    peerId.privKey.sign(bytes, (err, signature) => {
-      if (err) return reject(err)
+  const signature = await peerId.privKey.sign(bytes)
 
-      resolve({
-        ...message,
-        signature: signature,
-        key: peerId.pubKey.bytes
-      })
-    })
-  })
+  return {
+    ...message,
+    signature: signature,
+    key: peerId.pubKey.bytes
+  }
 }
 
 /**
@@ -50,15 +45,8 @@ async function verifySignature (message) {
   // Get the public key
   const pubKey = await messagePublicKey(message)
 
-  // Verify the base message
-  return new Promise((resolve, reject) => {
-    pubKey.verify(bytes, message.signature, (err, res) => {
-      if (err) {
-        return reject(err)
-      }
-      resolve(res)
-    })
-  })
+  // verify the base message
+  return pubKey.verify(bytes, message.signature)
 }
 
 /**
@@ -68,26 +56,24 @@ async function verifySignature (message) {
  * @param {Message} message
  * @returns {Promise<PublicKey>}
  */
-function messagePublicKey (message) {
-  return new Promise((resolve, reject) => {
-    if (message.key) {
-      PeerId.createFromPubKey(message.key, (err, peerId) => {
-        if (err) return reject(err)
-        // the key belongs to the sender, return the key
-        if (peerId.isEqual(message.from)) return resolve(peerId.pubKey)
-        // We couldn't validate pubkey is from the originator, error
-        return reject(new Error('Public Key does not match the originator'))
-      })
+async function messagePublicKey (message) {
+  if (message.key) {
+    const peerId = await PeerId.createFromPubKey(message.key)
+
+    // the key belongs to the sender, return the key
+    if (peerId.isEqual(message.from)) return peerId.pubKey
+    // We couldn't validate pubkey is from the originator, error
+    throw new Error('Public Key does not match the originator')
+  } else {
+    // should be available in the from property of the message (peer id)
+    const from = PeerId.createFromBytes(message.from)
+
+    if (from.pubKey) {
+      return from.pubKey
     } else {
-      // should be available in the from property of the message (peer id)
-      const from = PeerId.createFromBytes(message.from)
-      if (from.pubKey) {
-        return resolve(from.pubKey)
-      } else {
-        reject(new Error('Could not get the public key from the originator id'))
-      }
+      throw new Error('Could not get the public key from the originator id')
     }
-  })
+  }
 }
 
 module.exports = {
