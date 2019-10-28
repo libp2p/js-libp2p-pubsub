@@ -2,6 +2,7 @@
 
 const lp = require('it-length-prefixed')
 const pipe = require('it-pipe')
+const DuplexPair = require('it-pair/duplex')
 
 const PeerId = require('peer-id')
 const PeerInfo = require('peer-info')
@@ -41,7 +42,7 @@ class PubsubImplementation extends PubsubBaseProtocol {
     pipe(
       conn,
       lp.decode(),
-      async function collect (source) {
+      async function (source) {
         for await (const val of source) {
           const rpc = message.rpc.RPC.decode(val)
 
@@ -55,10 +56,46 @@ class PubsubImplementation extends PubsubBaseProtocol {
 exports.PubsubImplementation = PubsubImplementation
 
 exports.mockRegistrar = {
-  register: (multicodec, handlers) => {
+  handle: () => {},
+  register: () => {},
+  unregister: () => {}
+}
 
+exports.createMockRegistrar = (registrarRecord) => ({
+  handle: (multicodecs, handler) => {
+    const rec = registrarRecord[multicodecs[0]] || {}
+
+    registrarRecord[multicodecs[0]] = {
+      ...rec,
+      handler
+    }
   },
-  unregister: (multicodec) => {
+  register: (multicodecs, handlers) => {
+    const rec = registrarRecord[multicodecs[0]] || {}
 
+    registrarRecord[multicodecs[0]] = {
+      ...rec,
+      ...handlers
+    }
+
+    return multicodecs[0]
+  },
+  unregister: (id) => {
+    delete registrarRecord[id]
   }
+})
+
+exports.ConnectionPair = () => {
+  const [d0, d1] = DuplexPair()
+
+  return [
+    {
+      stream: d0,
+      newStream: () => Promise.resolve({ stream: d0 })
+    },
+    {
+      stream: d1,
+      newStream: () => Promise.resolve({ stream: d1 })
+    }
+  ]
 }

@@ -25,6 +25,7 @@ class PubsubBaseProtocol extends EventEmitter {
    * @param {Array<string>|string} props.multicodecs protocol identificers to connect
    * @param {PeerInfo} props.peerInfo peer's peerInfo
    * @param {Object} props.registrar registrar for libp2p protocols
+   * @param {function} props.registrar.handle
    * @param {function} props.registrar.register
    * @param {function} props.registrar.unregister
    * @param {boolean} [props.signMessages] if messages should be signed, defaults to true
@@ -44,7 +45,8 @@ class PubsubBaseProtocol extends EventEmitter {
     assert(PeerInfo.isPeerInfo(peerInfo), 'peer info must be an instance of `peer-info`')
 
     // registrar handling
-    assert(registrar && typeof registrar === 'object', 'a registrar object is required') // TODO: isRegistrar when it's implemented
+    assert(registrar && typeof registrar === 'object', 'a registrar object is required')
+    assert(typeof registrar.handle === 'function', 'a handle function must be provided in registrar')
     assert(typeof registrar.register === 'function', 'a register function must be provided in registrar')
     assert(typeof registrar.unregister === 'function', 'a unregister function must be provided in registrar')
 
@@ -84,13 +86,15 @@ class PubsubBaseProtocol extends EventEmitter {
      */
     this.strictSigning = strictSigning
 
+    this._registrarId = undefined
+    this._onIncomingStream = this._onIncomingStream.bind(this)
     this._onPeerConnected = this._onPeerConnected.bind(this)
     this._onPeerDisconnected = this._onPeerDisconnected.bind(this)
   }
 
   /**
    * Register the pubsub protocol onto the libp2p node.
-   * @returns {Promise}
+   * @returns {Promise<void>}
    */
   async start () {
     if (this.started) {
@@ -98,8 +102,11 @@ class PubsubBaseProtocol extends EventEmitter {
     }
     this.log('starting')
 
+    // Incoming streams
+    this.registrar.handle(this.multicodecs, this._onIncomingStream)
+
     // register protocol with multicodec and handlers
-    await this.registrar.register(this.multicodecs, {
+    this._registrarId = await this.registrar.register(this.multicodecs, {
       onConnect: this._onPeerConnected,
       onDisconnect: this._onPeerDisconnected
     })
@@ -118,7 +125,7 @@ class PubsubBaseProtocol extends EventEmitter {
     }
 
     // unregister protocol and handlers
-    await this.registrar.unregister(this.multicodecs)
+    await this.registrar.unregister(this._registrarId)
 
     this.log('stopping')
     this.peers.forEach((peer) => peer.close())
@@ -129,19 +136,40 @@ class PubsubBaseProtocol extends EventEmitter {
   }
 
   /**
+   * On an incoming stream event.
+   * @private
+   * @param {Object} props
+   * @param {string} props.protocol
+   * @param {DuplexStream} props.strean
+   * @param {PeerId} props.remotePeer remote peer-id
+   */
+  async _onIncomingStream ({ protocol, stream, remotePeer }) {
+    const peerInfo = await PeerInfo.create(remotePeer)
+    peerInfo.protocols.add(protocol)
+
+    const idB58Str = peerInfo.id.toB58String()
+
+    const peer = this._addPeer(new Peer(peerInfo))
+
+    peer.attachConnection(stream)
+    this._processMessages(idB58Str, stream, peer)
+  }
+
+  /**
    * Registrar notifies a connection successfully with pubsub protocol.
    * @private
    * @param {PeerInfo} peerInfo remote peer info
    * @param {Connection} conn connection to the peer
    */
-  _onPeerConnected (peerInfo, conn) {
+  async _onPeerConnected (peerInfo, conn) {
     const idB58Str = peerInfo.id.toB58String()
     this.log('connected', idB58Str)
 
     const peer = this._addPeer(new Peer(peerInfo))
-    peer.attachConnection(conn)
+    const { stream } = await conn.newStream(this.multicodecs)
 
-    this._processMessages(idB58Str, conn, peer)
+    peer.attachConnection(stream)
+    this._processMessages(idB58Str, stream, peer)
   }
 
   /**
@@ -166,8 +194,8 @@ class PubsubBaseProtocol extends EventEmitter {
    */
   _addPeer (peer) {
     const id = peer.info.id.toB58String()
-
     let existing = this.peers.get(id)
+
     if (!existing) {
       this.log('new peer', id)
       this.peers.set(id, peer)
@@ -175,6 +203,7 @@ class PubsubBaseProtocol extends EventEmitter {
 
       peer.once('close', () => this._removePeer(peer))
     }
+    ++existing._references
 
     return existing
   }
@@ -188,8 +217,14 @@ class PubsubBaseProtocol extends EventEmitter {
   _removePeer (peer) {
     const id = peer.info.id.toB58String()
 
-    this.log('delete peer', id)
-    this.peers.delete(id)
+    this.log('remove', id, peer._references)
+
+    // Only delete when no one else is referencing this peer.
+    if (--peer._references === 0) {
+      this.log('delete peer', id)
+      this.peers.delete(id)
+    }
+
     return peer
   }
 
@@ -202,14 +237,14 @@ class PubsubBaseProtocol extends EventEmitter {
     // If strict signing is on and we have no signature, abort
     if (this.strictSigning && !message.signature) {
       this.log('Signing required and no signature was present, dropping message:', message)
-      return Promise.resolve(false)
+      return false
     }
 
     // Check the message signature if present
     if (message.signature) {
       return verifySignature(message)
     } else {
-      return Promise.resolve(true)
+      return true
     }
   }
 

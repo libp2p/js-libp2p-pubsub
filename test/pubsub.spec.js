@@ -6,11 +6,16 @@ chai.use(require('dirty-chai'))
 chai.use(require('chai-spies'))
 const expect = chai.expect
 const sinon = require('sinon')
-const DuplexPair = require('it-pair/duplex')
 
 const PubsubBaseProtocol = require('../src')
 const { randomSeqno } = require('../src/utils')
-const { createPeerInfo, mockRegistrar, PubsubImplementation } = require('./utils')
+const {
+  createPeerInfo,
+  createMockRegistrar,
+  mockRegistrar,
+  PubsubImplementation,
+  ConnectionPair
+} = require('./utils')
 
 describe('pubsub base protocol', () => {
   describe('should start and stop properly', () => {
@@ -20,6 +25,7 @@ describe('pubsub base protocol', () => {
     beforeEach(async () => {
       const peerInfo = await createPeerInfo()
       sinonMockRegistrar = {
+        handle: sinon.stub(),
         register: sinon.stub(),
         unregister: sinon.stub()
       }
@@ -40,6 +46,7 @@ describe('pubsub base protocol', () => {
 
     it('should be able to start and stop', async () => {
       await pubsub.start()
+      expect(sinonMockRegistrar.handle.calledOnce).to.be.true()
       expect(sinonMockRegistrar.register.calledOnce).to.be.true()
 
       await pubsub.stop()
@@ -49,6 +56,7 @@ describe('pubsub base protocol', () => {
     it('should not throw to start if already started', async () => {
       await pubsub.start()
       await pubsub.start()
+      expect(sinonMockRegistrar.handle.calledOnce).to.be.true()
       expect(sinonMockRegistrar.register.calledOnce).to.be.true()
 
       await pubsub.stop()
@@ -131,22 +139,13 @@ describe('pubsub base protocol', () => {
     const registrarRecordA = {}
     const registrarRecordB = {}
 
-    const registrar = (registrarRecord) => ({
-      register: (multicodecs, handlers) => {
-        registrarRecord[multicodecs[0]] = handlers
-      },
-      unregister: (multicodecs) => {
-        delete registrarRecord[multicodecs[0]]
-      }
-    })
-
     // mount pubsub
     beforeEach(async () => {
       peerInfoA = await createPeerInfo()
       peerInfoB = await createPeerInfo()
 
-      pubsubA = new PubsubImplementation(protocol, peerInfoA, registrar(registrarRecordA))
-      pubsubB = new PubsubImplementation(protocol, peerInfoB, registrar(registrarRecordB))
+      pubsubA = new PubsubImplementation(protocol, peerInfoA, createMockRegistrar(registrarRecordA))
+      pubsubB = new PubsubImplementation(protocol, peerInfoB, createMockRegistrar(registrarRecordB))
     })
 
     // start pubsub
@@ -169,29 +168,41 @@ describe('pubsub base protocol', () => {
       ])
     })
 
-    it('should handle onConnect as expected', () => {
+    it('should handle onConnect as expected', async () => {
       const onConnectA = registrarRecordA[protocol].onConnect
-      const onConnectB = registrarRecordB[protocol].onConnect
+      const handlerB = registrarRecordB[protocol].handler
 
       // Notice peers of connection
-      const [d0, d1] = DuplexPair()
-      onConnectA(peerInfoB, d0)
-      onConnectB(peerInfoA, d1)
+      const [c0, c1] = ConnectionPair()
+
+      await onConnectA(peerInfoB, c0)
+      await handlerB({
+        protocol,
+        stream: c1.stream,
+        remotePeer: peerInfoA.id
+      })
 
       expect(pubsubA.peers.size).to.be.eql(1)
       expect(pubsubB.peers.size).to.be.eql(1)
     })
 
-    it('should handle onDisconnect as expected', () => {
+    it('should handle onDisconnect as expected', async () => {
       const onConnectA = registrarRecordA[protocol].onConnect
       const onDisconnectA = registrarRecordA[protocol].onDisconnect
-      const onConnectB = registrarRecordB[protocol].onConnect
+      const handlerB = registrarRecordB[protocol].handler
       const onDisconnectB = registrarRecordB[protocol].onDisconnect
 
       // Notice peers of connection
-      const [d0, d1] = DuplexPair()
-      onConnectA(peerInfoB, d0)
-      onConnectB(peerInfoA, d1)
+      const [c0, c1] = ConnectionPair()
+
+      await onConnectA(peerInfoB, c0)
+      await handlerB({
+        protocol,
+        stream: c1.stream,
+        remotePeer: peerInfoA.id
+      })
+
+      // Notice peers of disconnect
       onDisconnectA(peerInfoB)
       onDisconnectB(peerInfoA)
 
