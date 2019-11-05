@@ -50,7 +50,7 @@ TODO: add explanation for registrar!
 const Pubsub = require('libp2p-pubsub')
 
 class PubsubImplementation extends Pubsub {
-  constructor(peerInfo, registrar, options = {}) {
+  constructor({ peerInfo, registrar, ...options })
     super({
       debugName: 'libp2p:pubsub',
       multicodecs: '/pubsub-implementation/1.0.0',
@@ -90,7 +90,7 @@ The following specified API should be the base API for a pubsub implementation o
 
 ### Start
 
-Start the pubsub subsystem. The protocol will be registered to `libp2p`, which will notify about peers being connected and disconnected with the protocol.
+Starts the pubsub subsystem. The protocol will be registered to `libp2p`, which will result in pubsub being notified when peers who support the protocol connect/disconnect to `libp2p`.
 
 #### `pubsub.start()`
 
@@ -102,7 +102,7 @@ Start the pubsub subsystem. The protocol will be registered to `libp2p`, which w
 
 ### Stop
 
-Stop the pubsub subsystem. The protocol will be unregistered to `libp2p`, which will remove all listeners for the protocol and the streams with other peers will be closed.
+Stops the pubsub subsystem. The protocol will be unregistered from `libp2p`, which will remove all listeners for the protocol and the established connections will be closed.
 
 #### `pubsub.stop()`
 
@@ -169,7 +169,7 @@ Get the list of topics which the peer is subscribed to.
 
 ### Get Peers Subscribed to a topic
 
-Get a list of the peer-ids that are subscribed to one topic.
+Get a list of the [PeerId](https://github.com/libp2p/js-peer-id) strings that are subscribed to one topic.
 
 #### `pubsub.getPeersSubscribed(topic)`
 

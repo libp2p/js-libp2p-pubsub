@@ -53,7 +53,7 @@ describe('pubsub base protocol', () => {
       expect(sinonMockRegistrar.unregister.calledOnce).to.be.true()
     })
 
-    it('should not throw to start if already started', async () => {
+    it('starting should not throw if already started', async () => {
       await pubsub.start()
       await pubsub.start()
       expect(sinonMockRegistrar.handle.calledOnce).to.be.true()
@@ -63,14 +63,14 @@ describe('pubsub base protocol', () => {
       expect(sinonMockRegistrar.unregister.calledOnce).to.be.true()
     })
 
-    it('should not throw if stop before start', async () => {
+    it('stopping should not throw if not started', async () => {
       await pubsub.stop()
       expect(sinonMockRegistrar.register.calledOnce).to.be.false()
       expect(sinonMockRegistrar.unregister.calledOnce).to.be.false()
     })
   })
 
-  describe('should handle messages creating and signing', () => {
+  describe('should handle message creation and signing', () => {
     let peerInfo
     let pubsub
 

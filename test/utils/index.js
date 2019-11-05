@@ -70,7 +70,7 @@ exports.createMockRegistrar = (registrarRecord) => ({
       handler
     }
   },
-  register: (multicodecs, handlers) => {
+  register: ({ multicodecs, handlers }) => {
     const rec = registrarRecord[multicodecs[0]] || {}
 
     registrarRecord[multicodecs[0]] = {

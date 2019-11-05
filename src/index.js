@@ -106,9 +106,12 @@ class PubsubBaseProtocol extends EventEmitter {
     this.registrar.handle(this.multicodecs, this._onIncomingStream)
 
     // register protocol with multicodec and handlers
-    this._registrarId = await this.registrar.register(this.multicodecs, {
-      onConnect: this._onPeerConnected,
-      onDisconnect: this._onPeerDisconnected
+    this._registrarId = await this.registrar.register({
+      multicodecs: this.multicodecs,
+      handlers: {
+        onConnect: this._onPeerConnected,
+        onDisconnect: this._onPeerDisconnected
+      }
     })
 
     this.log('started')
