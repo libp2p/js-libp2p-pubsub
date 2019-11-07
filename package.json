@@ -60,6 +60,7 @@
     "it-pipe": "^1.0.1",
     "it-pushable": "^1.3.2",
     "libp2p-crypto": "~0.17.0",
+    "libp2p-interfaces": "~0.1.4",
     "protons": "^1.0.1",
     "sinon": "^7.5.0"
   },

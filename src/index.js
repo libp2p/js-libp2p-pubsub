@@ -6,6 +6,7 @@ const EventEmitter = require('events')
 const errcode = require('err-code')
 
 const PeerInfo = require('peer-info')
+const MulticodecTopology = require('libp2p-interfaces/src/topology/multicodec-topology')
 
 const message = require('./message')
 const Peer = require('./peer')
@@ -105,14 +106,15 @@ class PubsubBaseProtocol extends EventEmitter {
     // Incoming streams
     this.registrar.handle(this.multicodecs, this._onIncomingStream)
 
-    // register protocol with multicodec and handlers
-    this._registrarId = await this.registrar.register({
+    // register protocol with topology
+    const topology = new MulticodecTopology({
       multicodecs: this.multicodecs,
       handlers: {
         onConnect: this._onPeerConnected,
         onDisconnect: this._onPeerDisconnected
       }
     })
+    this._registrarId = await this.registrar.register(topology)
 
     this.log('started')
     this.started = true
