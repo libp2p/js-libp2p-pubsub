@@ -1,55 +1,301 @@
 <!doctype html>
-<html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>libp2p-pubsub - Documentation</title><link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500|Roboto:300,500,700" rel="stylesheet"/><style>body{margin: 0;
-padding: 0;
-color: #000;
-font-family: Roboto, sans-serif;
-font-weight: 300;
-line-height: 26px;
-font-size: 17px;}*{-moz-box-sizing: border-box;
-box-sizing: border-box;}</style></head><body><main id="app"><div data-radium="true"><div style="position:fixed;box-shadow:0px 2px 3px 0px rgba(0, 0, 0, 0.25);width:100%;min-width:100%;margin-left:0px;margin-right:0px;height:65px;z-index:99;background:#FFFFFF;padding-top:10px;padding-bottom:10px;padding-left:20px;padding-right:20px;" data-radium="true"><div style="margin-right:auto;margin-left:auto;padding-left:15px;padding-right:15px;" class="rmq-87b609c0 rmq-159a7c96 rmq-27601239" data-radium="true"><div style="margin-left:-15px;margin-right:-15px;" data-radium="true"><div style="position:relative;min-height:1px;padding-left:15px;padding-right:15px;float:left;width:50.00000%;" class="rmq-aa1729d5 rmq-a22eaf97 rmq-1918856d rmq-6156e77b rmq-21ab0466 rmq-a01b93a4 rmq-d226cb7e rmq-5cc71c8" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:inherit;font-size:36px;margin-right:20px;"><g><path d="m30 22.5h-5c-1.3 0-2.5 1.3-2.5 2.5h10c0-1.3-1.2-2.5-2.5-2.5z m-2.1-16.2c-6.6 0-8.2 1.2-9.1 2.1-1-0.9-2.6-2.1-9.2-2.1s-9.6 1.7-9.6 3v22.9c1.1-0.6 4.6-1.9 8.4-2.2 4.4-0.4 9.1 0.4 9.1 1.2 0 0.7 0.3 1.3 1.2 1.3h0.1c0.9 0 1.2-0.6 1.2-1.2 0-0.9 4.6-1.7 9.1-1.3 3.7 0.3 7.3 1.6 8.4 2.2v-22.9c0-1.3-3.1-3-9.6-3z m-10.4 22.3c-1.2-0.6-4-1.1-7.5-1.1s-6.6 0.5-7.5 1.1v-17.3s2.5-2.4 7.5-2.4 7.5 1.1 7.5 2.4v17.3z m17.5 0c-0.9-0.6-4-1.1-7.5-1.1s-6.3 0.5-7.5 1.1v-17.3s2.5-2.4 7.5-2.4 7.5 1.1 7.5 2.4v17.3z m-5-11.1h-5c-1.3 0-2.5 1.3-2.5 2.5h10c0-1.3-1.2-2.5-2.5-2.5z m0-5h-5c-1.3 0-2.5 1.3-2.5 2.5h10c0-1.3-1.2-2.5-2.5-2.5z m-17.5 5h-5c-1.2 0-2.5 1.2-2.5 2.5h10c0-1.2-1.2-2.5-2.5-2.5z m0 5h-5c-1.2 0-2.5 1.2-2.5 2.5h10c0-1.2-1.2-2.5-2.5-2.5z m0-10h-5c-1.2 0-2.5 1.2-2.5 2.5h10c0-1.2-1.2-2.5-2.5-2.5z"></path></g></svg><div style="display:inline-block;" data-radium="true"><div style="text-transform:uppercase;font-family:Roboto, sans-serif;" data-radium="true">libp2p-pubsub</div><div style="font-family:Roboto Mono, Menlo, Monaco, Courier, monospace;font-weight:300;" data-radium="true">0.2.1</div></div></div><div style="position:relative;min-height:1px;padding-left:15px;padding-right:15px;float:right !important;width:25.00000%;text-align:right;font-size:36px;" class="rmq-aa1729d5 rmq-a22eaf97 rmq-1918856d rmq-6156e77b rmq-77267d84 rmq-5c0c1446 rmq-4605701c rmq-34ee8e6a" data-radium="true"><a href="https://github.com/libp2p/js-libp2p-pubsub#readme"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m20 0c-11 0-20 9-20 20 0 8.8 5.7 16.3 13.7 19 1 0.2 1.3-0.5 1.3-1 0-0.5 0-2 0-3.7-5.5 1.2-6.7-2.4-6.7-2.4-0.9-2.3-2.2-2.9-2.2-2.9-1.9-1.2 0.1-1.2 0.1-1.2 2 0.1 3.1 2.1 3.1 2.1 1.7 3 4.6 2.1 5.8 1.6 0.2-1.3 0.7-2.2 1.3-2.7-4.5-0.5-9.2-2.2-9.2-9.8 0-2.2 0.8-4 2.1-5.4-0.2-0.5-0.9-2.6 0.2-5.3 0 0 1.7-0.5 5.5 2 1.6-0.4 3.3-0.6 5-0.6 1.7 0 3.4 0.2 5 0.7 3.8-2.6 5.5-2.1 5.5-2.1 1.1 2.8 0.4 4.8 0.2 5.3 1.3 1.4 2.1 3.2 2.1 5.4 0 7.6-4.7 9.3-9.2 9.8 0.7 0.6 1.4 1.9 1.4 3.7 0 2.7 0 4.9 0 5.5 0 0.6 0.3 1.2 1.3 1 8-2.7 13.7-10.2 13.7-19 0-11-9-20-20-20z"></path></g></svg></a></div><div style="clear:both;" data-radium="true"></div></div><div style="clear:both;" data-radium="true"></div></div></div><div style="margin-right:auto;margin-left:auto;padding-left:15px;padding-right:15px;padding-top:104px;" class="rmq-87b609c0 rmq-159a7c96 rmq-27601239" data-radium="true"><div style="margin-left:-15px;margin-right:-15px;" data-radium="true"><div style="position:fixed;min-height:1px;padding-left:15px;padding-right:15px;float:left;width:8.33333%;height:80%;max-width:300px;" class="rmq-aa1729d5 rmq-a22eaf97 rmq-1918856d rmq-6156e77b rmq-5c4c5b38 rmq-5c0c1446 rmq-4605701c rmq-34ee8e6a rmq-35757987 rmq-f09e82ae" data-radium="true"><div style="font-family:Roboto, sans-serif;border-radius:4px;padding-top:0;padding-bottom:0;margin-top:26px;border:1px solid #e6e9ed;font-weight:500;font-size:15px;line-height:18px;max-height:70vh;overflow-x:auto;" data-radium="true"><ul style="list-style:none;margin-top:0;margin-bottom:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-left:20px;padding-right:20px;padding-top:13px;padding-bottom:13px;border-bottom:1px solid #e6e9ed;" data-radium="true"><a style="color:#000;" href="#intro" data-radium="true">Intro</a></li></div><div data-radium="true"><li style="padding-left:20px;padding-right:20px;padding-top:13px;padding-bottom:13px;border-bottom:1px solid #e6e9ed;" data-radium="true"><a style="color:#000;" href="#pubsubbaseprotocol" data-radium="true">PubsubBaseProtocol</a></li><li style="padding-left:20px;padding-right:20px;padding-top:13px;padding-bottom:13px;border-bottom:1px solid #e6e9ed;" data-radium="true"><div style="padding-top:0;" data-radium="true"><span style="text-transform:uppercase;font-size:13px;line-height:18px;color:#666;" data-radium="true">Instance</span><ul style="list-style:none;padding-left:0;" data-radium="true"><li data-radium="true"><a href="#pubsubbaseprotocolstrictsigning" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">strictSigning</a></li><li data-radium="true"><a href="#pubsubbaseprotocoltopics" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">topics</a></li><li data-radium="true"><a href="#pubsubbaseprotocolseencache" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">seenCache</a></li><li data-radium="true"><a href="#pubsubbaseprotocolpeers" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">peers</a></li><li data-radium="true"><a href="#pubsubbaseprotocol_processconnection" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">_processConnection</a></li><li data-radium="true"><a href="#pubsubbaseprotocol_buildmessage" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">_buildMessage</a></li><li data-radium="true"><a href="#pubsubbaseprotocolpublish" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">publish</a></li><li data-radium="true"><a href="#pubsubbaseprotocolsubscribe" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">subscribe</a></li><li data-radium="true"><a href="#pubsubbaseprotocolunsubscribe" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">unsubscribe</a></li><li data-radium="true"><a href="#pubsubbaseprotocolstart" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">start</a></li><li data-radium="true"><a href="#pubsubbaseprotocolstop" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">stop</a></li><li data-radium="true"><a href="#pubsubbaseprotocolvalidate" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">validate</a></li></ul></div></li></div><div data-radium="true"><li style="padding-left:20px;padding-right:20px;padding-top:13px;padding-bottom:13px;border-bottom:1px solid #e6e9ed;" data-radium="true"><a style="color:#000;" href="#peer" data-radium="true">Peer</a></li><li style="padding-left:20px;padding-right:20px;padding-top:13px;padding-bottom:13px;border-bottom:1px solid #e6e9ed;" data-radium="true"><div style="padding-top:0;" data-radium="true"><span style="text-transform:uppercase;font-size:13px;line-height:18px;color:#666;" data-radium="true">Instance</span><ul style="list-style:none;padding-left:0;" data-radium="true"><li data-radium="true"><a href="#peerinfo" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">info</a></li><li data-radium="true"><a href="#peerconn" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">conn</a></li><li data-radium="true"><a href="#peertopics" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">topics</a></li><li data-radium="true"><a href="#peerstream" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">stream</a></li><li data-radium="true"><a href="#peerisconnected" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">isConnected</a></li><li data-radium="true"><a href="#peeriswritable" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">isWritable</a></li><li data-radium="true"><a href="#peerwrite" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">write</a></li><li data-radium="true"><a href="#peerattachconnection" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">attachConnection</a></li><li data-radium="true"><a href="#peersendsubscriptions" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">sendSubscriptions</a></li><li data-radium="true"><a href="#peersendunsubscriptions" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">sendUnsubscriptions</a></li><li data-radium="true"><a href="#peersendmessages" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">sendMessages</a></li><li data-radium="true"><a href="#peerupdatesubscriptions" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">updateSubscriptions</a></li><li data-radium="true"><a href="#peerclose" style="font-family:Roboto, sans-serif;font-weight:300;font-size:13px;line-height:16px;text-decoration:none;color:#555;" data-radium="true">close</a></li></ul></div></li></div><div data-radium="true"><li style="padding-left:20px;padding-right:20px;padding-top:13px;padding-bottom:13px;border-bottom:1px solid #e6e9ed;" data-radium="true"><a style="color:#000;" href="#signmessage" data-radium="true">signMessage</a></li></div><div data-radium="true"><li style="padding-left:20px;padding-right:20px;padding-top:13px;padding-bottom:13px;border-bottom:1px solid #e6e9ed;" data-radium="true"><a style="color:#000;" href="#verifysignature" data-radium="true">verifySignature</a></li></div><div data-radium="true"><li style="padding-left:20px;padding-right:20px;padding-top:13px;padding-bottom:13px;border-bottom:1px solid #e6e9ed;" data-radium="true"><a style="color:#000;" href="#messagepublickey" data-radium="true">messagePublicKey</a></li></div><div data-radium="true"><li style="padding-left:20px;padding-right:20px;padding-top:13px;padding-bottom:13px;border-bottom:1px solid #e6e9ed;" data-radium="true"><a style="color:#000;" href="#normalizeinrpcmessage" data-radium="true">normalizeInRpcMessage</a></li></div><div data-radium="true"><li style="padding-left:20px;padding-right:20px;padding-top:13px;padding-bottom:13px;border-bottom:none;" data-radium="true"><a style="color:#000;" href="#normalizeinrpcmessages" data-radium="true">normalizeInRpcMessages</a></li></div></ul></div></div><div style="position:relative;min-height:1px;padding-left:15px;padding-right:15px;float:left;width:100.00000%;" class="rmq-aa1729d5 rmq-a22eaf97 rmq-1918856d rmq-6156e77b rmq-89bb2272 rmq-2d0e68c6 rmq-3752549c rmq-3b9282ea rmq-4d29a8df rmq-ea7683a5 rmq-ad95cc33" data-radium="true"><div class="content" data-radium="true"><style>h1, h2, h3, h4, h5, h6{font-family: Roboto, sans-serif;
-font-weight: 300;}h1{font-size: 48px;
-line-height: 72px;}h2{font-size: 24px;
-line-height: 36px;}h3{font-size: 19px;
-line-height: 29px;
-font-weight: 400;}h4{font-size: 17px;
-line-height: 22px;
-font-weight: 400;}a{text-decoration: none;
-color: #00AAFF;
-:hover: [object Object];}a.anchor:before{content: "";
-display: block;
-height: 100px;
-margin: -80px 0 0;}.content blockquote{padding-left: 20px;
-margin: 0;
-border-left: 4px solid #eee;}.content ul, content li{list-style: none;}.content ul li:before{color: #CCC;
-float: left;
-margin-left: -20px;
-margin-top: 1px;
-content: "•";}pre.hljs, pre > code{margin-bottom: 30px;
-font-family: Roboto Mono, Menlo, Monaco, Courier, monospace;
-padding: 12px 15px 12px 15px;
-border-radius: 4px;
-box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
-display: block;
-position: relative;
-overflow-x: auto;
-font-size: 13px;
-color: #666;
-white-space: pre;}code{font-family: Roboto Mono, Menlo, Monaco, Courier, monospace;
-display: inline;
-font-size: 13px;
-font-weight: 400;
-margin: 0 2px;
-padding: 1px 6px;
-box-shadow: 0 0 0 1px #DDD;
-white-space: nowrap;
-border-radius: 4px;}.hljs{display: block;
-overflow-x: auto;}.hljs-comment, .hljs-quote{color: #998;
-font-style: italic;}.hljs-keyword, .hljs-selector-tag, .hljs-subst{color: #333;
-font-weight: bold;}.hljs-number, .hljs-literal, .hljs-variable, .hljs-template-variable, .hljs-tag .hljs-attr{color: #008080;}.hljs-string, .hljs-doctag{color: #d14;}.hljs-title, .hljs-section, .hljs-selector-id{color: #900;
-font-weight: bold;}.hljs-subst{font-weight: normal;}.hljs-type, .hljs-class .hljs-title{color: #458;
-font-weight: bold;}.hljs-tag, .hljs-name, .hljs-attribute{color: #000080;
-font-weight: normal;}.hljs-regexp, .hljs-link{color: #009926;}.hljs-symbol, .hljs-bullet{color: #990073;}.hljs-built_in, .hljs-builtin-name{color: #0086b3;}.hljs-meta{color: #999;
-font-weight: bold;}.hljs-deletion{background: #fdd;}.hljs-addition{background: #dfd;}.hljs-emphasis{font-style: italic;}.hljs-strong{font-weight: bold;}</style><div style="margin-bottom:104px;" data-radium="true"><h1 data-radium="true"><a class="anchor" name="intro"></a>Intro</h1><div><p>Installable via  <code>npm install --save libp2p-pubsub</code>, it can also be used directly in the browser.</p>
+<html lang="en">
+<head>
+  <meta charset='utf-8'>
+  <title>libp2p-pubsub 0.3.0 | Documentation</title>
+  <meta name='description' content='Pubsub base protocol for libp2p pubsub routers'>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <link href='assets/bass.css' rel='stylesheet'>
+  <link href='assets/style.css' rel='stylesheet'>
+  <link href='assets/github.css' rel='stylesheet'>
+  <link href='assets/split.css' rel='stylesheet'>
+</head>
+<body class='documentation m0'>
+    <div class='flex'>
+      <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
+        <div class='py1 px2'>
+          <h3 class='mb0 no-anchor'>libp2p-pubsub</h3>
+          <div class='mb1'><code>0.3.0</code></div>
+          <input
+            placeholder='Filter'
+            id='filter-input'
+            class='col12 block input'
+            type='text' />
+          <div id='toc'>
+            <ul class='list-reset h5 py1-ul'>
+              
+                
+                <li><a
+                  href='#intro'
+                  class="h5 bold black caps">
+                  Intro
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#pubsubbaseprotocol'
+                  class=" toggle-sibling">
+                  PubsubBaseProtocol
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#pubsubbaseprotocoltopics'
+                        class='regular pre-open'>
+                        #topics
+                      </a></li>
+                      
+                      <li><a
+                        href='#pubsubbaseprotocolpeers'
+                        class='regular pre-open'>
+                        #peers
+                      </a></li>
+                      
+                      <li><a
+                        href='#pubsubbaseprotocolstrictsigning'
+                        class='regular pre-open'>
+                        #strictSigning
+                      </a></li>
+                      
+                      <li><a
+                        href='#pubsubbaseprotocolstart'
+                        class='regular pre-open'>
+                        #start
+                      </a></li>
+                      
+                      <li><a
+                        href='#pubsubbaseprotocolstop'
+                        class='regular pre-open'>
+                        #stop
+                      </a></li>
+                      
+                      <li><a
+                        href='#pubsubbaseprotocolvalidate'
+                        class='regular pre-open'>
+                        #validate
+                      </a></li>
+                      
+                      <li><a
+                        href='#pubsubbaseprotocolgetpeerssubscribed'
+                        class='regular pre-open'>
+                        #getPeersSubscribed
+                      </a></li>
+                      
+                      <li><a
+                        href='#pubsubbaseprotocolpublish'
+                        class='regular pre-open'>
+                        #publish
+                      </a></li>
+                      
+                      <li><a
+                        href='#pubsubbaseprotocolsubscribe'
+                        class='regular pre-open'>
+                        #subscribe
+                      </a></li>
+                      
+                      <li><a
+                        href='#pubsubbaseprotocolunsubscribe'
+                        class='regular pre-open'>
+                        #unsubscribe
+                      </a></li>
+                      
+                      <li><a
+                        href='#pubsubbaseprotocolgettopics'
+                        class='regular pre-open'>
+                        #getTopics
+                      </a></li>
+                      
+                      <li><a
+                        href='#pubsubbaseprotocol_processmessages'
+                        class='regular pre-open'>
+                        #_processMessages
+                      </a></li>
+                      
+                    </ul>
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#peer'
+                  class=" toggle-sibling">
+                  Peer
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#peerinfo'
+                        class='regular pre-open'>
+                        #info
+                      </a></li>
+                      
+                      <li><a
+                        href='#peerconn'
+                        class='regular pre-open'>
+                        #conn
+                      </a></li>
+                      
+                      <li><a
+                        href='#peertopics'
+                        class='regular pre-open'>
+                        #topics
+                      </a></li>
+                      
+                      <li><a
+                        href='#peerstream'
+                        class='regular pre-open'>
+                        #stream
+                      </a></li>
+                      
+                      <li><a
+                        href='#peerisconnected'
+                        class='regular pre-open'>
+                        #isConnected
+                      </a></li>
+                      
+                      <li><a
+                        href='#peeriswritable'
+                        class='regular pre-open'>
+                        #isWritable
+                      </a></li>
+                      
+                      <li><a
+                        href='#peerwrite'
+                        class='regular pre-open'>
+                        #write
+                      </a></li>
+                      
+                      <li><a
+                        href='#peerattachconnection'
+                        class='regular pre-open'>
+                        #attachConnection
+                      </a></li>
+                      
+                      <li><a
+                        href='#peersendsubscriptions'
+                        class='regular pre-open'>
+                        #sendSubscriptions
+                      </a></li>
+                      
+                      <li><a
+                        href='#peersendunsubscriptions'
+                        class='regular pre-open'>
+                        #sendUnsubscriptions
+                      </a></li>
+                      
+                      <li><a
+                        href='#peersendmessages'
+                        class='regular pre-open'>
+                        #sendMessages
+                      </a></li>
+                      
+                      <li><a
+                        href='#peerupdatesubscriptions'
+                        class='regular pre-open'>
+                        #updateSubscriptions
+                      </a></li>
+                      
+                      <li><a
+                        href='#peerclose'
+                        class='regular pre-open'>
+                        #close
+                      </a></li>
+                      
+                    </ul>
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#normalizeinrpcmessage'
+                  class="">
+                  normalizeInRpcMessage
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#normalizeinrpcmessages'
+                  class="">
+                  normalizeInRpcMessages
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#signmessage'
+                  class="">
+                  signMessage
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#verifysignature'
+                  class="">
+                  verifySignature
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#messagepublickey'
+                  class="">
+                  messagePublicKey
+                  
+                </a>
+                
+                </li>
+              
+            </ul>
+          </div>
+          <div class='mt1 h6 quiet'>
+            <a href='https://documentation.js.org/reading-documentation.html'>Need help reading this?</a>
+          </div>
+        </div>
+      </div>
+      <div id='split-right' class='relative overflow-auto height-viewport-100'>
+        
+          
+            <div class='keyline-top-not py2'><section class='py2 clearfix'>
+
+  <h2 id='intro' class='mt0'>
+    Intro
+  </h2>
+
+  
+    <p>Installable via  <code>npm install --save libp2p-pubsub</code>, it can also be used directly in the browser.</p>
 <h2>Download</h2>
 <p>The source is available for download from <a href="git+https://github.com/libp2p/js-libp2p-pubsub.git">GitHub</a>. Alternatively, you can install using npm:</p>
 <pre class='hljs'>$ npm install --save libp2p-pubsub</pre>
@@ -64,85 +310,2403 @@ font-weight: bold;}.hljs-deletion{background: #fdd;}.hljs-addition{background: #
 <li><a href="https://unpkg.com/libp2p-pubsub/dist/index.min.js">https://unpkg.com/libp2p-pubsub/dist/index.min.js</a></li>
 <li><a href="https://unpkg.com/libp2p-pubsub/dist/index.js">https://unpkg.com/libp2p-pubsub/dist/index.js</a></li>
 </ul>
-</div></div><div style="margin-bottom:104px;" data-radium="true"><h1 data-radium="true"><a class="anchor" name="pubsubbaseprotocol"></a>PubsubBaseProtocol<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/index.js#L24-L388" title="src/index.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h1><div><p>PubsubBaseProtocol handles the peers and connections logic for pubsub routers</p>
-</div><div style="display:inline;" data-radium="true"><span> Extends </span><span>EventEmitter.</span></div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>debugName: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>:  <div style="display:inline-block;" data-radium="true"></div></li></div><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>multicodec: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>:  <div style="display:inline-block;" data-radium="true"></div></li></div><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>libp2p: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>:  <div style="display:inline-block;" data-radium="true">libp2p implementation
-</div></li></div><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>options: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div><div data-radium="true"><h2 style="text-transform:uppercase;" data-radium="true">instance</h2><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="pubsubbaseprotocolstrictsigning"></a>PubsubBaseProtocol.prototype.strictSigning<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/index.js#L57-L57" title="src/index.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>strictSigning: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>If message signing should be required for incoming messages</p>
-</div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="pubsubbaseprotocoltopics"></a>PubsubBaseProtocol.prototype.topics<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/index.js#L64-L64" title="src/index.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>topics: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, <a href="#peer">Peer</a>></code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Map of topics to which peers are subscribed to</p>
-</div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="pubsubbaseprotocolseencache"></a>PubsubBaseProtocol.prototype.seenCache<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/index.js#L71-L71" title="src/index.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>seenCache: TimeCache</code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Cache of seen messages</p>
-</div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="pubsubbaseprotocolpeers"></a>PubsubBaseProtocol.prototype.peers<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/index.js#L78-L78" title="src/index.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>peers: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, <a href="#peer">Peer</a>></code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Map of peers.</p>
-</div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="pubsubbaseprotocol_processconnection"></a>PubsubBaseProtocol.prototype._processConnection<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/index.js#L230-L232" title="src/index.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>_processConnection(idB58Str: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, conn: Connection, peer: PeerInfo): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Overriding the implementation of _processConnection should keep the connection and is
-responsible for processing each RPC message received by other peers.</p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>idB58Str: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>:  <div style="display:inline-block;" data-radium="true">peer id string in base58
-</div></li></div><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>conn: Connection</code>:  <div style="display:inline-block;" data-radium="true">connection
-</div></li></div><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>peer: PeerInfo</code>:  <div style="display:inline-block;" data-radium="true">peer info
-</div></li></div></ol></div><div data-radium="true"><h4>Returns</h4><div data-radium="true"><code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code><span> 
-</span></div></div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="pubsubbaseprotocol_buildmessage"></a>PubsubBaseProtocol.prototype._buildMessage<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/index.js#L257-L264" title="src/index.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>_buildMessage(message: Message, callback: function (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a>, Message))</code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Normalizes the message and signs it, if signing is enabled</p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>message: Message</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>callback: function (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a>, Message)</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="pubsubbaseprotocolpublish"></a>PubsubBaseProtocol.prototype.publish<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/index.js#L276-L278" title="src/index.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>publish(topics: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>), messages: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;any> | any), callback: function (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a>)): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Overriding the implementation of publish should handle the appropriate algorithms for the publish/subscriber implementation.
+
+  
+</section></div>
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='pubsubbaseprotocol'>
+      PubsubBaseProtocol
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/index.js#L22-L348'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>PubsubBaseProtocol handles the peers and connections logic for pubsub routers</p>
+
+    <div class='pre p1 fill-light mt0'>new PubsubBaseProtocol($0: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, props: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</div>
+  
+  
+    <p>
+      Extends
+      
+        EventEmitter
+      
+    </p>
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>$0</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code>
+	    
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>$0.debugName</span> <code class='quiet'>any</code>
+  </td>
+  <td class='break-word'><span></span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>$0.multicodecs</span> <code class='quiet'>any</code>
+  </td>
+  <td class='break-word'><span></span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>$0.peerInfo</span> <code class='quiet'>any</code>
+  </td>
+  <td class='break-word'><span></span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>$0.registrar</span> <code class='quiet'>any</code>
+  </td>
+  <td class='break-word'><span></span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>$0.signMessages</span> <code class='quiet'>any</code>
+  
+    (default <code>true</code>)
+  </td>
+  <td class='break-word'><span></span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>$0.strictSigning</span> <code class='quiet'>any</code>
+  
+    (default <code>true</code>)
+  </td>
+  <td class='break-word'><span></span></td>
+</tr>
+
+
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>props</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='pubsubbaseprotocoltopics'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>topics</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/index.js#L70-L70'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Map of topics to which peers are subscribed to</p>
+
+    <div class='pre p1 fill-light mt0'>topics</div>
+  
+    <p>
+      Type:
+      <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, <a href="#peer">Peer</a>>
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='pubsubbaseprotocolpeers'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>peers</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/index.js#L77-L77'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Map of peers.</p>
+
+    <div class='pre p1 fill-light mt0'>peers</div>
+  
+    <p>
+      Type:
+      <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, <a href="#peer">Peer</a>>
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='pubsubbaseprotocolstrictsigning'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>strictSigning</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/index.js#L88-L88'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>If message signing should be required for incoming messages</p>
+
+    <div class='pre p1 fill-light mt0'>strictSigning</div>
+  
+    <p>
+      Type:
+      <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='pubsubbaseprotocolstart'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>start()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/index.js#L100-L121'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Register the pubsub protocol onto the libp2p node.</p>
+
+    <div class='pre p1 fill-light mt0'>start(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;void></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;void></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='pubsubbaseprotocolstop'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>stop()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/index.js#L127-L141'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Unregister the pubsub protocol and the streams with other peers will be closed.</p>
+
+    <div class='pre p1 fill-light mt0'>stop(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='pubsubbaseprotocolvalidate'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>validate(message)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/index.js#L241-L254'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Validates the given message. The signature will be checked for authenticity.</p>
+
+    <div class='pre p1 fill-light mt0'>validate(message: rpc.RPC.Message): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>message</span> <code class='quiet'>(rpc.RPC.Message)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='pubsubbaseprotocolgetpeerssubscribed'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>getPeersSubscribed(topic)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/index.js#L276-L288'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Get a list of the peer-ids that are subscribed to one topic.</p>
+
+    <div class='pre p1 fill-light mt0'>getPeersSubscribed(topic: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>topic</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='pubsubbaseprotocolpublish'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>publish(topics, messages)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/index.js#L299-L301'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Overriding the implementation of publish should handle the appropriate algorithms for the publish/subscriber implementation.
 For example, a Floodsub implementation might simply publish each message to each topic for every peer</p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>topics: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>messages: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;any> | any)</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>callback: function (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a>)</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div><div data-radium="true"><h4>Returns</h4><div data-radium="true"><code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code><span> 
-</span></div></div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="pubsubbaseprotocolsubscribe"></a>PubsubBaseProtocol.prototype.subscribe<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/index.js#L287-L289" title="src/index.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>subscribe(topics: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Overriding the implementation of subscribe should handle the appropriate algorithms for the publish/subscriber implementation.
+
+    <div class='pre p1 fill-light mt0'>publish(topics: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>), messages: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;any> | any)): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>topics</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>))</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>messages</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;any> | any))</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='pubsubbaseprotocolsubscribe'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>subscribe(topics)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/index.js#L310-L312'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Overriding the implementation of subscribe should handle the appropriate algorithms for the publish/subscriber implementation.
 For example, a Floodsub implementation might simply send a message for every peer showing interest in the topics</p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>topics: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div><div data-radium="true"><h4>Returns</h4><div data-radium="true"><code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code><span> 
-</span></div></div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="pubsubbaseprotocolunsubscribe"></a>PubsubBaseProtocol.prototype.unsubscribe<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/index.js#L298-L300" title="src/index.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>unsubscribe(topics: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Overriding the implementation of unsubscribe should handle the appropriate algorithms for the publish/subscriber implementation.
+
+    <div class='pre p1 fill-light mt0'>subscribe(topics: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)): void</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>topics</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>))</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>void</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='pubsubbaseprotocolunsubscribe'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>unsubscribe(topics)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/index.js#L321-L323'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Overriding the implementation of unsubscribe should handle the appropriate algorithms for the publish/subscriber implementation.
 For example, a Floodsub implementation might simply send a message for every peer revoking interest in the topics</p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>topics: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div><div data-radium="true"><h4>Returns</h4><div data-radium="true"><code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code><span> 
-</span></div></div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="pubsubbaseprotocolstart"></a>PubsubBaseProtocol.prototype.start<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/index.js#L310-L331" title="src/index.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>start(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Mounts the pubsub protocol onto the libp2p node and sends our
-subscriptions to every peer conneceted</p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a></code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div><div data-radium="true"><h4>Returns</h4><div data-radium="true"><code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code><span> 
-</span></div></div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="pubsubbaseprotocolstop"></a>PubsubBaseProtocol.prototype.stop<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/index.js#L340-L362" title="src/index.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>stop(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Unmounts the pubsub protocol and shuts down every connection</p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a></code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div><div data-radium="true"><h4>Returns</h4><div data-radium="true"><code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code><span> 
-</span></div></div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="pubsubbaseprotocolvalidate"></a>PubsubBaseProtocol.prototype.validate<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/index.js#L370-L387" title="src/index.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>validate(message: rpc.RPC.Message, callback: function (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a>, <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>)): void</code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Validates the given message. The signature will be checked for authenticity.</p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>message: rpc.RPC.Message</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>callback: function (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a>, <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>)</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div><div data-radium="true"><h4>Returns</h4><div data-radium="true"><code>void</code><span> 
-</span></div></div></div></div></div><div style="margin-bottom:104px;" data-radium="true"><h1 data-radium="true"><a class="anchor" name="peer"></a>Peer<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/peer.js#L14-L185" title="src/peer.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h1><div><p>The known state of a connected peer.</p>
-</div><div style="display:inline;" data-radium="true"><span> Extends </span><span>EventEmitter.</span></div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>info: PeerInfo</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div><div data-radium="true"><h2 style="text-transform:uppercase;" data-radium="true">instance</h2><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="peerinfo"></a>Peer.prototype.info<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/peer.js#L24-L24" title="src/peer.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>info: PeerInfo</code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"></div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="peerconn"></a>Peer.prototype.conn<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/peer.js#L28-L28" title="src/peer.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>conn: Connection</code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"></div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="peertopics"></a>Peer.prototype.topics<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/peer.js#L32-L32" title="src/peer.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>topics: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set">Set</a></code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"></div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="peerstream"></a>Peer.prototype.stream<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/peer.js#L36-L36" title="src/peer.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>stream: Pushable</code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"></div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="peerisconnected"></a>Peer.prototype.isConnected<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/peer.js#L46-L48" title="src/peer.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>isConnected: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Is the peer connected currently?</p>
-</div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="peeriswritable"></a>Peer.prototype.isWritable<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/peer.js#L55-L57" title="src/peer.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>isWritable: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Do we have a connection to write on?</p>
-</div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="peerwrite"></a>Peer.prototype.write<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/peer.js#L66-L73" title="src/peer.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>write(msg: <a href="https://nodejs.org/api/buffer.html">Buffer</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Send a message to this peer.
+
+    <div class='pre p1 fill-light mt0'>unsubscribe(topics: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)): void</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>topics</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>))</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>void</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='pubsubbaseprotocolgettopics'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>getTopics()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/index.js#L331-L333'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Overriding the implementation of getTopics should handle the appropriate algorithms for the publish/subscriber implementation.
+Get the list of subscriptions the peer is subscribed to.</p>
+
+    <div class='pre p1 fill-light mt0'>getTopics(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='pubsubbaseprotocol_processmessages'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_processMessages(idB58Str, conn, peer)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/index.js#L345-L347'>
+      <span>src/index.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Overriding the implementation of _processMessages should keep the connection and is
+responsible for processing each RPC message received by other peers.</p>
+
+    <div class='pre p1 fill-light mt0'>_processMessages(idB58Str: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, conn: Connection, peer: PeerInfo): void</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>idB58Str</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    peer id string in base58
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>conn</span> <code class='quiet'>(Connection)</code>
+	    connection
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>peer</span> <code class='quiet'>(PeerInfo)</code>
+	    peer info
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>void</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='peer'>
+      Peer
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/peer.js#L14-L181'>
+      <span>src/peer.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>The known state of a connected peer.</p>
+
+    <div class='pre p1 fill-light mt0'>new Peer(info: PeerInfo)</div>
+  
+  
+    <p>
+      Extends
+      
+        EventEmitter
+      
+    </p>
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>info</span> <code class='quiet'>(PeerInfo)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='peerinfo'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>info</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/peer.js#L24-L24'>
+      <span>src/peer.js</span>
+      </a>
+    
+  </div>
+  
+
+  
+    <div class='pre p1 fill-light mt0'>info</div>
+  
+    <p>
+      Type:
+      PeerInfo
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='peerconn'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>conn</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/peer.js#L28-L28'>
+      <span>src/peer.js</span>
+      </a>
+    
+  </div>
+  
+
+  
+    <div class='pre p1 fill-light mt0'>conn</div>
+  
+    <p>
+      Type:
+      Connection
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='peertopics'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>topics</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/peer.js#L32-L32'>
+      <span>src/peer.js</span>
+      </a>
+    
+  </div>
+  
+
+  
+    <div class='pre p1 fill-light mt0'>topics</div>
+  
+    <p>
+      Type:
+      <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set">Set</a>
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='peerstream'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>stream</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/peer.js#L36-L36'>
+      <span>src/peer.js</span>
+      </a>
+    
+  </div>
+  
+
+  
+    <div class='pre p1 fill-light mt0'>stream</div>
+  
+    <p>
+      Type:
+      Pushable
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='peerisconnected'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>isConnected</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/peer.js#L46-L48'>
+      <span>src/peer.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Is the peer connected currently?</p>
+
+    <div class='pre p1 fill-light mt0'>isConnected</div>
+  
+    <p>
+      Type:
+      <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='peeriswritable'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>isWritable</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/peer.js#L55-L57'>
+      <span>src/peer.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Do we have a connection to write on?</p>
+
+    <div class='pre p1 fill-light mt0'>isWritable</div>
+  
+    <p>
+      Type:
+      <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='peerwrite'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>write(msg)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/peer.js#L66-L73'>
+      <span>src/peer.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Send a message to this peer.
 Throws if there is no <code>stream</code> to write to available.</p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>msg: <a href="https://nodejs.org/api/buffer.html">Buffer</a></code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div><div data-radium="true"><h4>Returns</h4><div data-radium="true"><code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code><span> 
-</span></div></div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="peerattachconnection"></a>Peer.prototype.attachConnection<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/peer.js#L81-L97" title="src/peer.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>attachConnection(conn: Connection): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Attach the peer to a connection and setup a write stream</p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>conn: Connection</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div><div data-radium="true"><h4>Returns</h4><div data-radium="true"><code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code><span> 
-</span></div></div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="peersendsubscriptions"></a>Peer.prototype.sendSubscriptions<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/peer.js#L122-L124" title="src/peer.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>sendSubscriptions(topics: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set">Set</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>)): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Send the given subscriptions to this peer.</p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>topics: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set">Set</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>)</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div><div data-radium="true"><h4>Returns</h4><div data-radium="true"><code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code><span> 
-</span></div></div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="peersendunsubscriptions"></a>Peer.prototype.sendUnsubscriptions<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/peer.js#L131-L133" title="src/peer.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>sendUnsubscriptions(topics: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set">Set</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>)): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Send the given unsubscriptions to this peer.</p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>topics: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set">Set</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>)</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div><div data-radium="true"><h4>Returns</h4><div data-radium="true"><code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code><span> 
-</span></div></div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="peersendmessages"></a>Peer.prototype.sendMessages<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/peer.js#L141-L145" title="src/peer.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>sendMessages(msgs: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;any>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Send messages to this peer.</p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>msgs: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;any></code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div><div data-radium="true"><h4>Returns</h4><div data-radium="true"><code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code><span> 
-</span></div></div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="peerupdatesubscriptions"></a>Peer.prototype.updateSubscriptions<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/peer.js#L153-L161" title="src/peer.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>updateSubscriptions(changes: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Bulk process subscription updates.</p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>changes: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div><div data-radium="true"><h4>Returns</h4><div data-radium="true"><code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code><span> 
-</span></div></div></div><div style="margin-bottom:52px;" data-radium="true"><h3 data-radium="true"><a class="anchor" name="peerclose"></a>Peer.prototype.close<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/peer.js#L169-L184" title="src/peer.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h3><pre><code>close(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code></pre><div style="margin-top:13px;margin-bottom:13px;" data-radium="true"><p>Closes the open connection to peer</p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a></code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div><div data-radium="true"><h4>Returns</h4><div data-radium="true"><code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code><span> 
-</span></div></div></div></div></div><div style="margin-bottom:104px;" data-radium="true"><h1 data-radium="true"><a class="anchor" name="signmessage"></a>signMessage<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/message/sign.js#L15-L32" title="src/message/sign.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h1><div><p>Signs the provided message with the given <code>peerId</code></p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>peerId: PeerId</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>message: Message</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>callback: function (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a>, Message)</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div><div data-radium="true"><h4>Returns</h4><div data-radium="true"><code>void</code><span> 
-</span></div></div></div><div style="margin-bottom:104px;" data-radium="true"><h1 data-radium="true"><a class="anchor" name="verifysignature"></a>verifySignature<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/message/sign.js#L39-L55" title="src/message/sign.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h1><div><p>Verifies the signature of the given message</p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>message: rpc.RPC.Message</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>callback: function (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a>, <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>)</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div></div><div style="margin-bottom:104px;" data-radium="true"><h1 data-radium="true"><a class="anchor" name="messagepublickey"></a>messagePublicKey<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/message/sign.js#L65-L84" title="src/message/sign.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h1><div><p>Returns the PublicKey associated with the given message.
+
+    <div class='pre p1 fill-light mt0'>write(msg: <a href="https://nodejs.org/api/buffer.html">Buffer</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>msg</span> <code class='quiet'>(<a href="https://nodejs.org/api/buffer.html">Buffer</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='peerattachconnection'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>attachConnection(conn)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/peer.js#L81-L98'>
+      <span>src/peer.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Attach the peer to a connection and setup a write stream</p>
+
+    <div class='pre p1 fill-light mt0'>attachConnection(conn: Connection): void</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>conn</span> <code class='quiet'>(Connection)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>void</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='peersendsubscriptions'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>sendSubscriptions(topics)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/peer.js#L123-L125'>
+      <span>src/peer.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Send the given subscriptions to this peer.</p>
+
+    <div class='pre p1 fill-light mt0'>sendSubscriptions(topics: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set">Set</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>)): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>topics</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set">Set</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>))</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='peersendunsubscriptions'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>sendUnsubscriptions(topics)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/peer.js#L132-L134'>
+      <span>src/peer.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Send the given unsubscriptions to this peer.</p>
+
+    <div class='pre p1 fill-light mt0'>sendUnsubscriptions(topics: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set">Set</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>)): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>topics</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set">Set</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>))</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='peersendmessages'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>sendMessages(msgs)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/peer.js#L142-L146'>
+      <span>src/peer.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Send messages to this peer.</p>
+
+    <div class='pre p1 fill-light mt0'>sendMessages(msgs: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;any>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>msgs</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;any>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='peerupdatesubscriptions'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>updateSubscriptions(changes)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/peer.js#L154-L162'>
+      <span>src/peer.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Bulk process subscription updates.</p>
+
+    <div class='pre p1 fill-light mt0'>updateSubscriptions(changes: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>changes</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='peerclose'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>close()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/peer.js#L168-L180'>
+      <span>src/peer.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Closes the open connection to peer</p>
+
+    <div class='pre p1 fill-light mt0'>close(): void</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>void</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='normalizeinrpcmessage'>
+      normalizeInRpcMessage
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/utils.js#L77-L83'>
+      <span>src/utils.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Ensures <code>message.from</code> is base58 encoded</p>
+
+    <div class='pre p1 fill-light mt0'>normalizeInRpcMessage(message: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>message</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code>
+	    
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>message.from</span> <code class='quiet'>(<a href="https://nodejs.org/api/buffer.html">Buffer</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code>
+  </td>
+  <td class='break-word'><span></span></td>
+</tr>
+
+
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='normalizeinrpcmessages'>
+      normalizeInRpcMessages
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/utils.js#L90-L95'>
+      <span>src/utils.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>The same as <code>normalizeInRpcMessage</code>, but performed on an array of messages</p>
+
+    <div class='pre p1 fill-light mt0'>normalizeInRpcMessages(messages: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>messages</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='signmessage'>
+      signMessage
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/message/sign.js#L14-L28'>
+      <span>src/message/sign.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Signs the provided message with the given <code>peerId</code></p>
+
+    <div class='pre p1 fill-light mt0'>signMessage(peerId: PeerId, message: Message): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;Message></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>peerId</span> <code class='quiet'>(PeerId)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>message</span> <code class='quiet'>(Message)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;Message></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='verifysignature'>
+      verifySignature
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/message/sign.js#L35-L50'>
+      <span>src/message/sign.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Verifies the signature of the given message</p>
+
+    <div class='pre p1 fill-light mt0'>verifySignature(message: rpc.RPC.Message): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>message</span> <code class='quiet'>(rpc.RPC.Message)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a>></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='messagepublickey'>
+      messagePublicKey
+    </h3>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/libp2p/js-libp2p-pubsub/blob/39309a593abd4320acac12177e105c57219677b4/src/message/sign.js#L59-L77'>
+      <span>src/message/sign.js</span>
+      </a>
+    
+  </div>
+  
+
+  <p>Returns the PublicKey associated with the given message.
 If no, valid PublicKey can be retrieved an error will be returned.</p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>message: Message</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>callback: function (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a>, PublicKey)</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div><div data-radium="true"><h4>Returns</h4><div data-radium="true"><code>void</code><span> 
-</span></div></div></div><div style="margin-bottom:104px;" data-radium="true"><h1 data-radium="true"><a class="anchor" name="normalizeinrpcmessage"></a>normalizeInRpcMessage<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/utils.js#L77-L83" title="src/utils.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h1><div><p>Ensures <code>message.from</code> is base58 encoded</p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>message: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>:  <div style="display:inline-block;" data-radium="true"></div></li><li style="padding-bottom:13px;" data-radium="true"><code>message.from: (<a href="https://nodejs.org/api/buffer.html">Buffer</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">String</a>)</code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div><div data-radium="true"><h4>Returns</h4><div data-radium="true"><code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code><span> 
-</span></div></div></div><div style="margin-bottom:104px;" data-radium="true"><h1 data-radium="true"><a class="anchor" name="normalizeinrpcmessages"></a>normalizeInRpcMessages<a href="https://git@github.com/:libp2p/js-libp2p-pubsub/blob/8669709604b3db0131e2f1ddab6d43d0f956230f/src/utils.js#L90-L95" title="src/utils.js" style="float:right;" data-radium="true"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 40 40" style="vertical-align:middle;"><g><path d="m26.3 7.5l-3.8 3.8 8.8 8.7-8.8 8.8 3.8 3.7 11.2-12.5-11.2-12.5z m-12.5 0l-11.3 12.5 11.3 12.5 3.7-3.7-8.7-8.8 8.7-8.7-3.7-3.8z"></path></g></svg></a></h1><div><p>The same as <code>normalizeInRpcMessage</code>, but performed on an array of messages</p>
-</div><div data-radium="true"><h4>Parameters</h4><ol style="list-style:none;margin-left:0;padding-left:0;" data-radium="true"><div data-radium="true"><li style="padding-bottom:13px;" data-radium="true"><code>messages: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>></code>:  <div style="display:inline-block;" data-radium="true"></div></li></div></ol></div><div data-radium="true"><h4>Returns</h4><div data-radium="true"><code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>></code><span> 
-</span></div></div></div></div></div><div style="clear:both;" data-radium="true"></div></div><div style="clear:both;" data-radium="true"></div></div><style>@media (min-width: 768px) and (max-width: 991px){ .rmq-87b609c0{width: 750px !important;}}
-@media (min-width: 992px) and (max-width: 1199px){ .rmq-159a7c96{width: 970px !important;}}
-@media (min-width: 1200px){ .rmq-27601239{width: 1170px !important;}}
-@media (min-width: 480px) and (max-width: 767px){ .rmq-aa1729d5{float: left !important;}}
-@media (min-width: 768px) and (max-width: 991px){ .rmq-a22eaf97{float: left !important;}}
-@media (min-width: 992px) and (max-width: 1199px){ .rmq-1918856d{float: left !important;}}
-@media (min-width: 1200px){ .rmq-6156e77b{float: left !important;}}
-@media (min-width: 480px) and (max-width: 767px) { .rmq-21ab0466{width: 50.00000% !important;}}
-@media (min-width: 768px) and (max-width: 991px) { .rmq-a01b93a4{width: 50.00000% !important;}}
-@media (min-width: 992px) and (max-width: 1199px) { .rmq-d226cb7e{width: 50.00000% !important;}}
-@media (min-width: 1200px) { .rmq-5cc71c8{width: 50.00000% !important;}}
-@media (min-width: 480px) and (max-width: 767px) { .rmq-77267d84{width: 25.00000% !important;}}
-@media (min-width: 768px) and (max-width: 991px) { .rmq-5c0c1446{width: 25.00000% !important;}}
-@media (min-width: 992px) and (max-width: 1199px) { .rmq-4605701c{width: 25.00000% !important;}}
-@media (min-width: 1200px) { .rmq-34ee8e6a{width: 25.00000% !important;}}
-@media (min-width: 480px) and (max-width: 767px) { .rmq-5c4c5b38{width: 8.33333% !important;}}
-@media (max-width: 479px){ .rmq-35757987{display: none !important;}}
-@media (min-width: 480px) and (max-width: 767px)  { .rmq-f09e82ae{display: none !important;}}
-@media (min-width: 480px) and (max-width: 767px) { .rmq-89bb2272{width: 100.00000% !important;}}
-@media (min-width: 768px) and (max-width: 991px) { .rmq-2d0e68c6{width: 66.66667% !important;}}
-@media (min-width: 992px) and (max-width: 1199px) { .rmq-3752549c{width: 66.66667% !important;}}
-@media (min-width: 1200px) { .rmq-3b9282ea{width: 66.66667% !important;}}
-@media (min-width: 768px) and (max-width: 991px)  { .rmq-4d29a8df{left: 33.33333% !important;}}
-@media (min-width: 992px) and (max-width: 1199px)  { .rmq-ea7683a5{left: 33.33333% !important;}}
-@media (min-width: 1200px)  { .rmq-ad95cc33{left: 33.33333% !important;}}</style></div></main></body></html>
+
+    <div class='pre p1 fill-light mt0'>messagePublicKey(message: Message): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;PublicKey></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>message</span> <code class='quiet'>(Message)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;PublicKey></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+      </div>
+    </div>
+  <script src='assets/anchor.js'></script>
+  <script src='assets/split.js'></script>
+  <script src='assets/site.js'></script>
+</body>
+</html>
