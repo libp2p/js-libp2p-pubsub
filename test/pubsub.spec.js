@@ -8,6 +8,7 @@ const expect = chai.expect
 const sinon = require('sinon')
 
 const PubsubBaseProtocol = require('../src')
+const Peer = require('../src/peer')
 const { randomSeqno } = require('../src/utils')
 const {
   createPeerInfo,
@@ -208,6 +209,72 @@ describe('pubsub base protocol', () => {
 
       expect(pubsubA.peers.size).to.be.eql(0)
       expect(pubsubB.peers.size).to.be.eql(0)
+    })
+  })
+
+  describe('getPeersSubscribed', () => {
+    let peerInfo
+    let pubsub
+
+    beforeEach(async () => {
+      peerInfo = await createPeerInfo()
+      pubsub = new PubsubBaseProtocol({
+        debugName: 'pubsub',
+        multicodecs: '/pubsub/1.0.0',
+        peerInfo: peerInfo,
+        registrar: mockRegistrar
+      })
+    })
+
+    afterEach(() => pubsub.stop())
+
+    it('should fail if pubsub is not started', () => {
+      const topic = 'topic-test'
+
+      try {
+        pubsub.getPeersSubscribed(topic)
+      } catch (err) {
+        expect(err).to.exist()
+        expect(err.code).to.eql('ERR_NOT_STARTED_YET')
+        return
+      }
+      throw new Error('should fail if pubsub is not started')
+    })
+
+    it('should fail if no topic is provided', async () => {
+      // start pubsub
+      await pubsub.start()
+
+      try {
+        pubsub.getPeersSubscribed()
+      } catch (err) {
+        expect(err).to.exist()
+        expect(err.code).to.eql('ERR_NOT_VALID_TOPIC')
+        return
+      }
+      throw new Error('should fail if no topic is provided')
+    })
+
+    it('should get peer subscribed to one topic', async () => {
+      const topic = 'topic-test'
+
+      // start pubsub
+      await pubsub.start()
+
+      let peersSubscribed = pubsub.getPeersSubscribed(topic)
+      expect(peersSubscribed).to.be.empty()
+
+      // Set mock peer subscribed
+      const peer = new Peer(peerInfo)
+      const id = peer.info.id.toB58String()
+
+      peer.topics.add(topic)
+      pubsub.peers.set(id, peer)
+
+      peersSubscribed = pubsub.getPeersSubscribed(topic)
+
+      expect(peersSubscribed).to.not.be.empty()
+      expect(peersSubscribed[0]).to.eql(id)
     })
   })
 })
