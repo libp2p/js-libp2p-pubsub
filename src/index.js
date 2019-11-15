@@ -146,7 +146,7 @@ class PubsubBaseProtocol extends EventEmitter {
    * @param {Object} props
    * @param {string} props.protocol
    * @param {DuplexStream} props.strean
-   * @param {PeerId} props.connection connection
+   * @param {Connection} props.connection connection
    */
   async _onIncomingStream ({ protocol, stream, connection }) {
     const peerInfo = await PeerInfo.create(connection.remotePeer)
