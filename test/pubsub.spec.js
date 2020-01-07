@@ -235,6 +235,17 @@ describe('pubsub base protocol', () => {
       expect(pubsubA.peers.size).to.be.eql(0)
       expect(pubsubB.peers.size).to.be.eql(0)
     })
+
+    it('should handle onDisconnect for unknown peers', () => {
+      const onDisconnectA = registrarRecordA[protocol].onDisconnect
+
+      expect(pubsubA.peers.size).to.be.eql(0)
+
+      // Notice peers of disconnect
+      onDisconnectA(peerInfoB)
+
+      expect(pubsubA.peers.size).to.be.eql(0)
+    })
   })
 
   describe('getSubscribers', () => {
