@@ -15,6 +15,25 @@ const {
   verifySignature
 } = require('./message/sign')
 
+function validateRegistrar (registrar) {
+  // registrar handling
+  if (typeof registrar !== 'object') {
+    throw new Error('a registrar object is required')
+  }
+
+  if (typeof registrar.handle !== 'function') {
+    throw new Error('a handle function must be provided in registrar')
+  }
+
+  if (typeof registrar.register !== 'function') {
+    throw new Error('a register function must be provided in registrar')
+  }
+
+  if (typeof registrar.unregister !== 'function') {
+    throw new Error('a unregister function must be provided in registrar')
+  }
+}
+
 /**
  * PubsubBaseProtocol handles the peers and connections logic for pubsub routers
  */
@@ -52,20 +71,7 @@ class PubsubBaseProtocol extends EventEmitter {
       throw new Error('peer info must be an instance of `peer-info`')
     }
 
-
-    // registrar handling
-    if (typeof registrar !== 'object') {
-      throw new Error('a registrar object is required')
-    }
-    if (typeof registrar.handle !== 'function') {
-      throw new Error('a handle function must be provided in registrar')
-    }
-    if (typeof registrar.register !== 'function') {
-      throw new Error('a register function must be provided in registrar')
-    }
-    if (typeof registrar.unregister !== 'function') {
-      throw new Error('a unregister function must be provided in registrar')
-    }
+    validateRegistrar(registrar)
 
     super()
 
