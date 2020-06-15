@@ -176,7 +176,7 @@ class PubsubBaseProtocol extends EventEmitter {
 
     const idB58Str = peerInfo.id.toB58String()
 
-    const peer = this._addPeer(new Peer(peerInfo))
+    const peer = this._addPeer(peerInfo)
 
     this._processMessages(idB58Str, stream, peer)
   }
@@ -191,7 +191,7 @@ class PubsubBaseProtocol extends EventEmitter {
     const idB58Str = peerInfo.id.toB58String()
     this.log('connected', idB58Str)
 
-    const peer = this._addPeer(new Peer(peerInfo))
+    const peer = this._addPeer(peerInfo)
 
     if (peer.isConnected) {
       return
@@ -222,15 +222,18 @@ class PubsubBaseProtocol extends EventEmitter {
   /**
    * Add a new connected peer to the peers map.
    * @private
-   * @param {PeerInfo} peer peer info
+   * @param {PeerInfo} peerInfo peer info
    * @returns {PeerInfo}
    */
-  _addPeer (peer) {
-    const id = peer.info.id.toB58String()
+  _addPeer (peerInfo) {
+    const id = peerInfo.id.toB58String()
     let existing = this.peers.get(id)
 
     if (!existing) {
       this.log('new peer', id)
+
+      const peer = new Peer(peerInfo)
+
       this.peers.set(id, peer)
       existing = peer
 
