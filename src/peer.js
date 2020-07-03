@@ -34,8 +34,6 @@ class Peer extends EventEmitter {
      * @type {Pushable}
      */
     this.stream = null
-
-    this._references = 0
   }
 
   /**
@@ -168,9 +166,6 @@ class Peer extends EventEmitter {
    * @returns {void}
    */
   close () {
-    // Force removal of peer
-    this._references = 1
-
     // End the pushable
     if (this.stream) {
       this.stream.end()
