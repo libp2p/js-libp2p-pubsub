@@ -195,7 +195,7 @@ describe('pubsub base protocol', () => {
 
       // Notice peers of connection
       const [c0, c1] = ConnectionPair()
-      const [c2, c3] = ConnectionPair()
+      const [c2] = ConnectionPair()
 
       sinon.spy(c0, 'newStream')
 
