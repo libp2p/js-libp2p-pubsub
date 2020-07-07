@@ -189,10 +189,6 @@ class PubsubBaseProtocol extends EventEmitter {
 
     const peer = this._addPeer(peerId, this.multicodecs)
 
-    if (peer.isConnected) {
-      return
-    }
-
     try {
       const { stream } = await conn.newStream(this.multicodecs)
       peer.attachConnection(stream)

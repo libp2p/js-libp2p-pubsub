@@ -84,16 +84,23 @@ class Peer extends EventEmitter {
    * @returns {void}
    */
   attachConnection (conn) {
-    this.conn = conn
+    if (this.stream) {
+      // Close the existing stream but don't emit 'close'
+      this.stream.end(false)
+    }
+
     this.stream = pushable({
-      onEnd: () => {
+      onEnd: (err) => {
         // close readable side of the stream
         this.conn.reset && this.conn.reset()
         this.conn = null
         this.stream = null
-        this.emit('close')
+        if (err !== false) {
+          this.emit('close')
+        }
       }
     })
+    this.conn = conn
 
     pipe(
       this.stream,
