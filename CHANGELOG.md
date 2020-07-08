@@ -1,3 +1,13 @@
+<a name="0.4.7"></a>
+## [0.4.7](https://github.com/libp2p/js-libp2p-pubsub/compare/v0.4.6...v0.4.7) (2020-07-08)
+
+
+### Bug Fixes
+
+* remove references ([#55](https://github.com/libp2p/js-libp2p-pubsub/issues/55)) ([4473814](https://github.com/libp2p/js-libp2p-pubsub/commit/4473814))
+
+
+
 <a name="0.4.6"></a>
 ## [0.4.6](https://github.com/libp2p/js-libp2p-pubsub/compare/v0.4.5...v0.4.6) (2020-06-23)
 
