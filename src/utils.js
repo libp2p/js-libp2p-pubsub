@@ -76,24 +76,15 @@ exports.ensureArray = (maybeArray) => {
  * @param {Uint8Array|String} message.from
  * @return {Object}
  */
-exports.normalizeInRpcMessage = (message) => {
+exports.normalizeInRpcMessage = (message, peerId) => {
   const m = Object.assign({}, message)
   if (message.from instanceof Uint8Array) {
     m.from = uint8ArrayToString(message.from, 'base58btc')
   }
-  return m
-}
-
-/**
- * The same as `normalizeInRpcMessage`, but performed on an array of messages
- * @param {Object[]} messages
- * @return {Object[]}
- */
-exports.normalizeInRpcMessages = (messages) => {
-  if (!messages) {
-    return messages
+  if (peerId) {
+    m.receivedFrom = peerId.toB58String()
   }
-  return messages.map(exports.normalizeInRpcMessage)
+  return m
 }
 
 exports.normalizeOutRpcMessage = (message) => {
@@ -105,11 +96,4 @@ exports.normalizeOutRpcMessage = (message) => {
     m.data = uint8ArrayFromString(message.data)
   }
   return m
-}
-
-exports.normalizeOutRpcMessages = (messages) => {
-  if (!messages) {
-    return messages
-  }
-  return messages.map(exports.normalizeOutRpcMessage)
 }
