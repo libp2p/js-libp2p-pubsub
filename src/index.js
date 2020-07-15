@@ -314,7 +314,7 @@ class PubsubBaseProtocol extends EventEmitter {
    * For example, a Floodsub implementation might simply publish each message to each topic for every peer
    * @abstract
    * @param {Array<string>|string} topics
-   * @param {Buffer | string} message
+   * @param {Buffer} message
    * @returns {Promise<void>}
    *
    */
