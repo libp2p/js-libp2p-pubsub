@@ -324,11 +324,11 @@ class PubsubBaseProtocol extends EventEmitter {
    * For example, a Floodsub implementation might simply publish each message to each topic for every peer
    * @abstract
    * @param {Array<string>|string} topics
-   * @param {Array<any>|any} messages
-   * @returns {Promise}
+   * @param {Buffer} message
+   * @returns {Promise<void>}
    *
    */
-  publish (topics, messages) {
+  publish (topics, message) {
     throw errcode(new Error('publish must be implemented by the subclass'), 'ERR_NOT_IMPLEMENTED')
   }
 
