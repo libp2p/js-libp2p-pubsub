@@ -254,6 +254,11 @@ class PubsubBaseProtocol extends EventEmitter {
     const peerStreams = this.peers.get(id)
     if (!peerStreams) return
 
+    // close peer streams
+    peerStreams.removeAllListeners()
+    peerStreams.close()
+
+    // delete peer streams
     this.log('delete peer', id)
     this.peers.delete(id)
 
