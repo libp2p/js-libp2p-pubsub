@@ -341,7 +341,7 @@ describe('pubsub base protocol', () => {
       const peer = new PeerStreams({ id: peerId })
       const id = peer.id.toB58String()
 
-      pubsub.topics.set(topic, new Set([peer]))
+      pubsub.topics.set(topic, new Set([id]))
       pubsub.peers.set(id, peer)
 
       peersSubscribed = pubsub.getSubscribers(topic)

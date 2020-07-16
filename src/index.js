@@ -99,7 +99,7 @@ class PubsubBaseProtocol extends EventEmitter {
     /**
      * Map of topics to which peers are subscribed to
      *
-     * @type {Map<string, Set<PeerStreams>>}
+     * @type {Map<string, Set<string>>}
      */
     this.topics = new Map()
 
@@ -273,6 +273,11 @@ class PubsubBaseProtocol extends EventEmitter {
     this.log('delete peer', id)
     this.peers.delete(id)
 
+    // remove peer from topics map
+    for (const peers of this.topics.values()) {
+      peers.delete(id)
+    }
+
     return peerStreams
   }
 
@@ -328,7 +333,6 @@ class PubsubBaseProtocol extends EventEmitter {
       return []
     }
     return Array.from(peersInTopic)
-      .map((peer) => peer.id.toB58String())
   }
 
   /**
