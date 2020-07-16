@@ -7,6 +7,7 @@ const errcode = require('err-code')
 const PeerId = require('peer-id')
 const MulticodecTopology = require('libp2p-interfaces/src/topology/multicodec-topology')
 
+const { codes } = require('./errors')
 const message = require('./message')
 const Peer = require('./peer')
 const utils = require('./utils')
@@ -267,21 +268,19 @@ class PubsubBaseProtocol extends EventEmitter {
 
   /**
    * Validates the given message. The signature will be checked for authenticity.
+   * Throws an error on invalid messages
    * @param {InMessage} message
-   * @returns {Promise<Boolean>}
+   * @returns {Promise<void>}
    */
   async validate (message) { // eslint-disable-line require-await
     // If strict signing is on and we have no signature, abort
     if (this.strictSigning && !message.signature) {
-      this.log('Signing required and no signature was present, dropping message:', message)
-      return false
+      throw errcode(new Error('Signing required and no signature was present'), codes.ERR_MISSING_SIGNATURE)
     }
 
     // Check the message signature if present
-    if (message.signature) {
-      return verifySignature(message)
-    } else {
-      return true
+    if (message.signature && !verifySignature(message)) {
+      throw errcode(new Error('Invalid message signature'), codes.ERR_INVALID_SIGNATURE)
     }
   }
 
