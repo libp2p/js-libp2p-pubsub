@@ -4,6 +4,7 @@
 const chai = require('chai')
 chai.use(require('dirty-chai'))
 chai.use(require('chai-spies'))
+chai.use(require('chai-as-promised'))
 const expect = chai.expect
 const sinon = require('sinon')
 
@@ -91,6 +92,7 @@ describe('pubsub base protocol', () => {
 
     it('_buildMessage normalizes and signs messages', async () => {
       const message = {
+        receivedFrom: peerId.id,
         from: peerId.id,
         data: 'hello',
         seqno: randomSeqno(),
@@ -98,13 +100,12 @@ describe('pubsub base protocol', () => {
       }
 
       const signedMessage = await pubsub._buildMessage(message)
-      const verified = await pubsub.validate(signedMessage)
-
-      expect(verified).to.eql(true)
+      expect(pubsub.validate(signedMessage)).to.not.be.rejected()
     })
 
     it('validate with strict signing off will validate a present signature', async () => {
       const message = {
+        receivedFrom: peerId.id,
         from: peerId.id,
         data: 'hello',
         seqno: randomSeqno(),
@@ -114,22 +115,19 @@ describe('pubsub base protocol', () => {
       sinon.stub(pubsub, 'strictSigning').value(false)
 
       const signedMessage = await pubsub._buildMessage(message)
-      const verified = await pubsub.validate(signedMessage)
-
-      expect(verified).to.eql(true)
+      expect(pubsub.validate(signedMessage)).to.not.be.rejected()
     })
 
     it('validate with strict signing requires a signature', async () => {
       const message = {
+        receivedFrom: peerId.id,
         from: peerId.id,
         data: 'hello',
         seqno: randomSeqno(),
         topicIDs: ['test-topic']
       }
 
-      const verified = await pubsub.validate(message)
-
-      expect(verified).to.eql(false)
+      await expect(pubsub.validate(message)).to.be.rejectedWith(Error, 'Signing required and no signature was present')
     })
   })
 
