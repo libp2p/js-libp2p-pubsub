@@ -168,7 +168,7 @@ class PubsubBaseProtocol extends EventEmitter {
    * @private
    * @param {Object} props
    * @param {string} props.protocol
-   * @param {Stream} props.stream
+   * @param {DuplexIterableStream} props.stream
    * @param {Connection} props.connection connection
    */
   _onIncomingStream ({ protocol, stream, connection }) {

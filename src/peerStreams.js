@@ -35,13 +35,13 @@ class PeerStreams extends EventEmitter {
     /**
      * The raw outbound stream, as retrieved from conn.newStream
      * @private
-     * @type {Stream}
+     * @type {DuplexIterableStream}
      */
     this._rawOutboundStream = null
     /**
      * The raw inbound stream, as retrieved from the callback from libp2p.handle
      * @private
-     * @type {Stream}
+     * @type {DuplexIterableStream}
      */
     this._rawInboundStream = null
     /**
@@ -57,7 +57,7 @@ class PeerStreams extends EventEmitter {
     this.outboundStream = null
     /**
      * Read stream
-     * @type {Stream}
+     * @type {DuplexIterableStream}
      */
     this.inboundStream = null
   }
@@ -99,7 +99,7 @@ class PeerStreams extends EventEmitter {
   /**
    * Attach a raw inbound stream and setup a read stream
    *
-   * @param {Stream} stream
+   * @param {DuplexIterableStream} stream
    * @returns {void}
    */
   attachInboundStream (stream) {
