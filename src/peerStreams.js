@@ -126,7 +126,7 @@ class PeerStreams extends EventEmitter {
     )
 
     // Only emit if the connection is new
-    if (_prevStream) {
+    if (!_prevStream) {
       this.emit('stream:inbound')
     }
   }
@@ -168,7 +168,7 @@ class PeerStreams extends EventEmitter {
     })
 
     // Only emit if the connection is new
-    if (_prevStream) {
+    if (!_prevStream) {
       this.emit('stream:outbound')
     }
   }
