@@ -178,10 +178,11 @@ class PeerStreams extends EventEmitter {
    * @returns {void}
    */
   close () {
-    // End the pushable
+    // End the outbound stream
     if (this.outboundStream) {
       this.outboundStream.end()
     }
+    // End the inbound stream
     if (this.inboundStream) {
       this._inboundAbortController.abort()
     }
