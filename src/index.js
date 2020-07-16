@@ -156,7 +156,7 @@ class PubsubBaseProtocol extends EventEmitter {
     await this.registrar.unregister(this._registrarId)
 
     this.log('stopping')
-    this.peers.forEach((peer) => peer.close())
+    this.peers.forEach((peerStreams) => peerStreams.close())
 
     this.peers = new Map()
     this.started = false
@@ -221,23 +221,25 @@ class PubsubBaseProtocol extends EventEmitter {
    */
   _addPeer (peerId, protocol) {
     const id = peerId.toB58String()
-    let existing = this.peers.get(id)
-
-    if (!existing) {
-      this.log('new peer', id)
-
-      const peer = new PeerStreams({
-        id: peerId,
-        protocol
-      })
-
-      this.peers.set(id, peer)
-      existing = peer
-
-      peer.once('close', () => this._removePeer(peerId))
+    const existing = this.peers.get(id)
+    // If peer streams already exists, do nothing
+    if (existing) {
+      return existing
     }
 
-    return existing
+    // else create a new peer streams
+
+    this.log('new peer', id)
+
+    const peerStreams = new PeerStreams({
+      id: peerId,
+      protocol
+    })
+
+    this.peers.set(id, peerStreams)
+    peerStreams.once('close', () => this._removePeer(peerId))
+
+    return peerStreams
   }
 
   /**
@@ -249,13 +251,13 @@ class PubsubBaseProtocol extends EventEmitter {
   _removePeer (peerId) {
     if (!peerId) return
     const id = peerId.toB58String()
-    const peer = this.peers.get(id)
-    if (!peer) return
+    const peerStreams = this.peers.get(id)
+    if (!peerStreams) return
 
     this.log('delete peer', id)
     this.peers.delete(id)
 
-    return peer
+    return peerStreams
   }
 
   /**

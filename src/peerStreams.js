@@ -9,8 +9,8 @@ const abortable = require('abortable-iterator')
 const AbortController = require('abort-controller')
 const debug = require('debug')
 
-const log = debug('libp2p-pubsub:peer')
-log.error = debug('libp2p-pubsub:peer:error')
+const log = debug('libp2p-pubsub:peer-streams')
+log.error = debug('libp2p-pubsub:peer-streams:error')
 
 /**
  * Thin wrapper around a peer's inbound / outbound pubsub streams
