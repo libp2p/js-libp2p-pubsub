@@ -9,7 +9,7 @@ const MulticodecTopology = require('libp2p-interfaces/src/topology/multicodec-to
 
 const { codes } = require('./errors')
 const message = require('./message')
-const Peer = require('./peer')
+const PeerStreams = require('./peerStreams')
 const utils = require('./utils')
 const {
   signMessage,
@@ -21,9 +21,9 @@ const {
  * @property {string} from
  * @property {string} receivedFrom
  * @property {string[]} topicIDs
- * @property {Buffer} data
- * @property {Buffer} [signature]
- * @property {Buffer} [key]
+ * @property {Uint8Array} data
+ * @property {Uint8Array} [signature]
+ * @property {Uint8Array} [key]
  */
 
 function validateRegistrar (registrar) {
@@ -99,14 +99,14 @@ class PubsubBaseProtocol extends EventEmitter {
     /**
      * Map of topics to which peers are subscribed to
      *
-     * @type {Map<string, Peer>}
+     * @type {Map<string, Set<PeerStreams>>}
      */
     this.topics = new Map()
 
     /**
-     * Map of peers.
+     * Map of peer streams
      *
-     * @type {Map<string, Peer>}
+     * @type {Map<string, PeerStreams>}
      */
     this.peers = new Map()
 
@@ -136,9 +136,11 @@ class PubsubBaseProtocol extends EventEmitter {
     this.log('starting')
 
     // Incoming streams
+    // Called after a peer dials us
     this.registrar.handle(this.multicodecs, this._onIncomingStream)
 
     // register protocol with topology
+    // Topology callbacks called on connection manager changes
     const topology = new MulticodecTopology({
       multicodecs: this.multicodecs,
       handlers: {
@@ -165,7 +167,7 @@ class PubsubBaseProtocol extends EventEmitter {
     await this.registrar.unregister(this._registrarId)
 
     this.log('stopping')
-    this.peers.forEach((peer) => peer.close())
+    this.peers.forEach((peerStreams) => peerStreams.close())
 
     this.peers = new Map()
     this.started = false
@@ -177,15 +179,16 @@ class PubsubBaseProtocol extends EventEmitter {
    * @private
    * @param {Object} props
    * @param {string} props.protocol
-   * @param {DuplexStream} props.strean
+   * @param {DuplexIterableStream} props.stream
    * @param {Connection} props.connection connection
    */
   _onIncomingStream ({ protocol, stream, connection }) {
     const peerId = connection.remotePeer
     const idB58Str = peerId.toB58String()
-    const peer = this._addPeer(peerId, [protocol])
+    const peer = this._addPeer(peerId, protocol)
+    peer.attachInboundStream(stream)
 
-    this._processMessages(idB58Str, stream, peer)
+    this._processMessages(idB58Str, peer.inboundStream, peer)
   }
 
   /**
@@ -198,11 +201,10 @@ class PubsubBaseProtocol extends EventEmitter {
     const idB58Str = peerId.toB58String()
     this.log('connected', idB58Str)
 
-    const peer = this._addPeer(peerId, this.multicodecs)
-
     try {
-      const { stream } = await conn.newStream(this.multicodecs)
-      peer.attachConnection(stream)
+      const { stream, protocol } = await conn.newStream(this.multicodecs)
+      const peer = this._addPeer(peerId, protocol)
+      await peer.attachOutboundStream(stream)
     } catch (err) {
       this.log.err(err)
     }
@@ -216,54 +218,62 @@ class PubsubBaseProtocol extends EventEmitter {
    */
   _onPeerDisconnected (peerId, err) {
     const idB58Str = peerId.toB58String()
-    const peer = this.peers.get(idB58Str)
 
     this.log('connection ended', idB58Str, err ? err.message : '')
-    this._removePeer(peer)
+    this._removePeer(peerId)
   }
 
   /**
-   * Add a new connected peer to the peers map.
+   * Notifies the router that a peer has been connected
    * @private
    * @param {PeerId} peerId
-   * @param {Array<string>} protocols
-   * @returns {Peer}
+   * @param {string} protocol
+   * @returns {PeerStreams}
    */
-  _addPeer (peerId, protocols) {
+  _addPeer (peerId, protocol) {
     const id = peerId.toB58String()
-    let existing = this.peers.get(id)
-
-    if (!existing) {
-      this.log('new peer', id)
-
-      const peer = new Peer({
-        id: peerId,
-        protocols
-      })
-
-      this.peers.set(id, peer)
-      existing = peer
-
-      peer.once('close', () => this._removePeer(peer))
+    const existing = this.peers.get(id)
+    // If peer streams already exists, do nothing
+    if (existing) {
+      return existing
     }
 
-    return existing
+    // else create a new peer streams
+
+    this.log('new peer', id)
+
+    const peerStreams = new PeerStreams({
+      id: peerId,
+      protocol
+    })
+
+    this.peers.set(id, peerStreams)
+    peerStreams.once('close', () => this._removePeer(peerId))
+
+    return peerStreams
   }
 
   /**
-   * Remove a peer from the peers map.
+   * Notifies the router that a peer has been disconnected.
    * @private
-   * @param {Peer} peer peer state
-   * @returns {Peer}
+   * @param {PeerId} peerId
+   * @returns {PeerStreams | undefined}
    */
-  _removePeer (peer) {
-    if (!peer) return
-    const id = peer.id.toB58String()
+  _removePeer (peerId) {
+    if (!peerId) return
+    const id = peerId.toB58String()
+    const peerStreams = this.peers.get(id)
+    if (!peerStreams) return
 
+    // close peer streams
+    peerStreams.removeAllListeners()
+    peerStreams.close()
+
+    // delete peer streams
     this.log('delete peer', id)
     this.peers.delete(id)
 
-    return peer
+    return peerStreams
   }
 
   /**
@@ -313,8 +323,11 @@ class PubsubBaseProtocol extends EventEmitter {
       throw errcode(new Error('a string topic must be provided'), 'ERR_NOT_VALID_TOPIC')
     }
 
-    return Array.from(this.peers.values())
-      .filter((peer) => peer.topics.has(topic))
+    const peersInTopic = this.topics.get(topic)
+    if (!peersInTopic) {
+      return []
+    }
+    return Array.from(peersInTopic)
       .map((peer) => peer.id.toB58String())
   }
 
@@ -323,7 +336,7 @@ class PubsubBaseProtocol extends EventEmitter {
    * For example, a Floodsub implementation might simply publish each message to each topic for every peer
    * @abstract
    * @param {Array<string>|string} topics
-   * @param {Buffer} message
+   * @param {Uint8Array} message
    * @returns {Promise<void>}
    *
    */
@@ -369,7 +382,7 @@ class PubsubBaseProtocol extends EventEmitter {
    * @abstract
    * @param {string} idB58Str peer id string in base58
    * @param {Connection} conn connection
-   * @param {Peer} peer A Pubsub Peer
+   * @param {PeerStreams} peer A Pubsub Peer
    * @returns {void}
    *
    */

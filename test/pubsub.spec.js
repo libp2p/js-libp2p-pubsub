@@ -9,7 +9,7 @@ const expect = chai.expect
 const sinon = require('sinon')
 
 const PubsubBaseProtocol = require('../src')
-const Peer = require('../src/peer')
+const PeerStreams = require('../src/peerStreams')
 const { randomSeqno } = require('../src/utils')
 const {
   createPeerId,
@@ -338,10 +338,10 @@ describe('pubsub base protocol', () => {
       expect(peersSubscribed).to.be.empty()
 
       // Set mock peer subscribed
-      const peer = new Peer({ id: peerId })
+      const peer = new PeerStreams({ id: peerId })
       const id = peer.id.toB58String()
 
-      peer.topics.add(topic)
+      pubsub.topics.set(topic, new Set([peer]))
       pubsub.peers.set(id, peer)
 
       peersSubscribed = pubsub.getSubscribers(topic)
