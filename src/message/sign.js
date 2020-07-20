@@ -59,27 +59,25 @@ async function verifySignature (message) {
  * @returns {Promise<PublicKey>}
  */
 async function messagePublicKey (message) {
+  // should be available in the from property of the message (peer id)
+  let from
+  if (typeof message.from === 'string') {
+    from = PeerId.createFromB58String(message.from)
+  } else {
+    from = PeerId.createFromBytes(message.from)
+  }
+
   if (message.key) {
-    const peerId = await PeerId.createFromPubKey(message.key)
+    const keyPeerId = await PeerId.createFromPubKey(message.key)
 
     // the key belongs to the sender, return the key
-    if (peerId.isEqual(message.from)) return peerId.pubKey
+    if (keyPeerId.isEqual(from)) return keyPeerId.pubKey
     // We couldn't validate pubkey is from the originator, error
     throw new Error('Public Key does not match the originator')
+  } else if (from.pubKey) {
+    return from.pubKey
   } else {
-    // should be available in the from property of the message (peer id)
-    let from
-    if (typeof message.from === 'string') {
-      from = PeerId.createFromB58String(message.from)
-    } else {
-      from = PeerId.createFromBytes(message.from)
-    }
-
-    if (from.pubKey) {
-      return from.pubKey
-    } else {
-      throw new Error('Could not get the public key from the originator id')
-    }
+    throw new Error('Could not get the public key from the originator id')
   }
 }
 
