@@ -49,7 +49,7 @@ async function verifySignature (message) {
   const pubKey = await messagePublicKey(message)
 
   // verify the base message
-  return await pubKey.verify(bytes, message.signature)
+  return pubKey.verify(bytes, message.signature)
 }
 
 /**
