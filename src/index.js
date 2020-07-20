@@ -294,7 +294,7 @@ class PubsubBaseProtocol extends EventEmitter {
     }
 
     // Check the message signature if present
-    if (message.signature && !verifySignature(message)) {
+    if (message.signature && !(await verifySignature(message))) {
       throw errcode(new Error('Invalid message signature'), codes.ERR_INVALID_SIGNATURE)
     }
   }
