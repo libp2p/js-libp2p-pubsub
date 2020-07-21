@@ -31,7 +31,7 @@ async function signMessage (peerId, message) {
 
 /**
  * Verifies the signature of the given message
- * @param {rpc.RPC.Message} message
+ * @param {InMessage} message
  * @returns {Promise<Boolean>}
  */
 async function verifySignature (message) {
@@ -39,6 +39,9 @@ async function verifySignature (message) {
   const baseMessage = { ...message }
   delete baseMessage.signature
   delete baseMessage.key
+  if (typeof baseMessage.from === 'string') {
+    baseMessage.from = PeerId.createFromB58String(baseMessage.from).toBytes()
+  }
   const bytes = uint8ArrayConcat([
     SignPrefix,
     Message.encode(baseMessage)
