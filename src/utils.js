@@ -74,6 +74,7 @@ exports.ensureArray = (maybeArray) => {
  * Ensures `message.from` is base58 encoded
  * @param {Object} message
  * @param {Uint8Array|String} message.from
+ * @param {PeerId} peerId
  * @return {Object}
  */
 exports.normalizeInRpcMessage = (message, peerId) => {
