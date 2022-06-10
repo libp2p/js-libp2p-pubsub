@@ -184,7 +184,7 @@
     "iso-random-stream": "^2.0.0",
     "it-length-prefixed": "^7.0.1",
     "it-pipe": "^2.0.3",
-    "it-pushable": "^2.0.1",
+    "it-pushable": "^3.0.0",
     "multiformats": "^9.6.3",
     "p-queue": "^7.2.0",
     "uint8arrays": "^3.0.0"
