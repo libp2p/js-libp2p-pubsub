@@ -82,7 +82,7 @@ export class MockRegistrar implements Registrar {
       throw new Error(`No handler registered for protocol ${protocol}`)
     }
 
-    return {handler, options: {}}
+    return { handler, options: {} }
   }
 
   async register (protocols: string | string[], topology: Topology) {

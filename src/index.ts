@@ -115,7 +115,7 @@ export abstract class PubSubBaseProtocol<Events = PubSubEvents> extends EventEmi
     const registrar = this.components.getRegistrar()
     // Incoming streams
     // Called after a peer dials us
-    await Promise.all(this.multicodecs.map(multicodec => registrar.handle(multicodec, this._onIncomingStream)))
+    await Promise.all(this.multicodecs.map(async multicodec => await registrar.handle(multicodec, this._onIncomingStream)))
 
     // register protocol with topology
     // Topology callbacks called on connection manager changes
@@ -123,7 +123,7 @@ export abstract class PubSubBaseProtocol<Events = PubSubEvents> extends EventEmi
       onConnect: this._onPeerConnected,
       onDisconnect: this._onPeerDisconnected
     })
-    this._registrarTopologyIds = await Promise.all(this.multicodecs.map(multicodec => registrar.register(multicodec, topology)))
+    this._registrarTopologyIds = await Promise.all(this.multicodecs.map(async multicodec => await registrar.register(multicodec, topology)))
 
     log('started')
     this.started = true
@@ -144,7 +144,7 @@ export abstract class PubSubBaseProtocol<Events = PubSubEvents> extends EventEmi
       this._registrarTopologyIds?.map(id => registrar.unregister(id))
     }
 
-    await Promise.all(this.multicodecs.map(multicodec => registrar.unhandle(multicodec)))
+    await Promise.all(this.multicodecs.map(async multicodec => await registrar.unhandle(multicodec)))
 
     log('stopping')
     for (const peerStreams of this.peers.values()) {
