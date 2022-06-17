@@ -65,8 +65,8 @@ export abstract class PubSubBaseProtocol<Events = PubSubEvents> extends EventEmi
 
   private _registrarTopologyIds: string[] | undefined
   protected enabled: boolean
-  private maxInboundStreams: number
-  private maxOutboundStreams: number
+  private readonly maxInboundStreams: number
+  private readonly maxOutboundStreams: number
 
   constructor (props: PubSubInit) {
     super()
