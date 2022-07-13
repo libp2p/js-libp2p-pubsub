@@ -26,7 +26,7 @@ describe('topic validators', () => {
     otherPeerId = await createEd25519PeerId()
 
     pubsub = new PubsubImplementation({
-      multicodecs: [protocol],
+      multicodecs: new Set([protocol]),
       globalSignaturePolicy: 'StrictNoSign'
     })
     pubsub.init(new Components({

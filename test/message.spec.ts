@@ -18,7 +18,7 @@ describe('pubsub base messages', () => {
   before(async () => {
     peerId = await createPeerId()
     pubsub = new PubsubImplementation({
-      multicodecs: ['/pubsub/1.0.0']
+      multicodecs: new Set(['/pubsub/1.0.0'])
     })
     pubsub.init(new Components({
       peerId: peerId,

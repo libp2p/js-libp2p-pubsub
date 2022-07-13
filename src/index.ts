@@ -6,7 +6,7 @@ import Queue from 'p-queue'
 import { createTopology } from '@libp2p/topology'
 import { codes } from './errors.js'
 import { PeerStreams as PeerStreamsImpl } from './peer-streams.js'
-import { toMessage, ensureArray, randomSeqno, noSignMsgId, msgId, toRpcMessage } from './utils.js'
+import { toMessage, randomSeqno, noSignMsgId, msgId, toRpcMessage } from './utils.js'
 import {
   signMessage,
   verifySignature
@@ -60,7 +60,7 @@ export abstract class PubSubBaseProtocol<Events = PubSubEvents> extends EventEmi
    */
   public topicValidators: Map<string, TopicValidator>
   public queue: Queue
-  public multicodecs: string[]
+  public multicodecs: Set<string>
   public components: Components = new Components()
 
   private _registrarTopologyIds: string[] | undefined
@@ -72,7 +72,7 @@ export abstract class PubSubBaseProtocol<Events = PubSubEvents> extends EventEmi
     super()
 
     const {
-      multicodecs = [],
+      multicodecs = new Set(),
       globalSignaturePolicy = 'StrictSign',
       canRelayMessage = false,
       emitSelf = false,
@@ -81,7 +81,7 @@ export abstract class PubSubBaseProtocol<Events = PubSubEvents> extends EventEmi
       maxOutboundStreams = 1
     } = props
 
-    this.multicodecs = ensureArray(multicodecs)
+    this.multicodecs = multicodecs
     this.enabled = props.enabled !== false
     this.started = false
     this.topics = new Map()
@@ -119,12 +119,16 @@ export abstract class PubSubBaseProtocol<Events = PubSubEvents> extends EventEmi
     log('starting')
 
     const registrar = this.components.getRegistrar()
+    const handlePromises: Array<Promise<void>> = []
     // Incoming streams
     // Called after a peer dials us
-    await Promise.all(this.multicodecs.map(async multicodec => await registrar.handle(multicodec, this._onIncomingStream, {
-      maxInboundStreams: this.maxInboundStreams,
-      maxOutboundStreams: this.maxOutboundStreams
-    })))
+    this.multicodecs.forEach(multicodec => {
+      handlePromises.push(registrar.handle(multicodec, this._onIncomingStream, {
+        maxInboundStreams: this.maxInboundStreams,
+        maxOutboundStreams: this.maxOutboundStreams
+      }))
+    })
+    await Promise.all(handlePromises)
 
     // register protocol with topology
     // Topology callbacks called on connection manager changes
@@ -132,7 +136,10 @@ export abstract class PubSubBaseProtocol<Events = PubSubEvents> extends EventEmi
       onConnect: this._onPeerConnected,
       onDisconnect: this._onPeerDisconnected
     })
-    this._registrarTopologyIds = await Promise.all(this.multicodecs.map(async multicodec => await registrar.register(multicodec, topology)))
+
+    const registerPromises: Array<Promise<string>> = []
+    this.multicodecs.forEach(multicodec => registerPromises.push(registrar.register(multicodec, topology)))
+    this._registrarTopologyIds = await Promise.all(registerPromises)
 
     log('started')
     this.started = true
@@ -153,7 +160,9 @@ export abstract class PubSubBaseProtocol<Events = PubSubEvents> extends EventEmi
       this._registrarTopologyIds?.map(id => registrar.unregister(id))
     }
 
-    await Promise.all(this.multicodecs.map(async multicodec => await registrar.unhandle(multicodec)))
+    const unhandlePromises: Array<Promise<void>> = []
+    this.multicodecs.forEach(multicodec => unhandlePromises.push(registrar.unhandle(multicodec)))
+    await Promise.all(unhandlePromises)
 
     log('stopping')
     for (const peerStreams of this.peers.values()) {
@@ -197,7 +206,7 @@ export abstract class PubSubBaseProtocol<Events = PubSubEvents> extends EventEmi
 
     void Promise.resolve().then(async () => {
       try {
-        const stream = await conn.newStream(this.multicodecs)
+        const stream = await conn.newStream(Array.from(this.multicodecs))
 
         if (stream.stat.protocol == null) {
           stream.abort(new Error('Stream was not multiplexed'))

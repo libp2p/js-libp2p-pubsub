@@ -35,7 +35,7 @@ describe('pubsub instance', () => {
   it('should accept valid parameters', () => {
     expect(() => {
       new PubsubProtocol({ // eslint-disable-line no-new
-        multicodecs: ['/pubsub/1.0.0']
+        multicodecs: new Set(['/pubsub/1.0.0'])
       })
     }).not.to.throw()
   })

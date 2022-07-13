@@ -21,7 +21,7 @@ describe('emitSelf', () => {
       const peerId = await createPeerId()
 
       pubsub = new PubsubImplementation({
-        multicodecs: [protocol],
+        multicodecs: new Set([protocol]),
         emitSelf: true
       })
       pubsub.init(new Components({
@@ -77,7 +77,7 @@ describe('emitSelf', () => {
       const peerId = await createPeerId()
 
       pubsub = new PubsubImplementation({
-        multicodecs: [protocol],
+        multicodecs: new Set([protocol]),
         emitSelf: false
       })
       pubsub.init(new Components({

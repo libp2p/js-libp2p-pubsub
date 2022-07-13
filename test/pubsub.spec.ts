@@ -31,7 +31,7 @@ describe('pubsub base implementation', () => {
     beforeEach(async () => {
       const peerId = await createPeerId()
       pubsub = new PubsubImplementation({
-        multicodecs: [protocol],
+        multicodecs: new Set([protocol]),
         emitSelf: true
       })
       pubsub.init(new Components({
@@ -107,7 +107,7 @@ describe('pubsub base implementation', () => {
       beforeEach(async () => {
         const peerId = await createPeerId()
         pubsub = new PubsubImplementation({
-          multicodecs: [protocol]
+          multicodecs: new Set([protocol])
         })
         pubsub.init(new Components({
           peerId: peerId,
@@ -140,14 +140,14 @@ describe('pubsub base implementation', () => {
         registrarB = new MockRegistrar()
 
         pubsubA = new PubsubImplementation({
-          multicodecs: [protocol]
+          multicodecs: new Set([protocol])
         })
         pubsubA.init(new Components({
           peerId: peerIdA,
           registrar: registrarA
         }))
         pubsubB = new PubsubImplementation({
-          multicodecs: [protocol]
+          multicodecs: new Set([protocol])
         })
         pubsubB.init(new Components({
           peerId: peerIdB,
@@ -212,7 +212,7 @@ describe('pubsub base implementation', () => {
       beforeEach(async () => {
         const peerId = await createPeerId()
         pubsub = new PubsubImplementation({
-          multicodecs: [protocol]
+          multicodecs: new Set([protocol])
         })
         pubsub.init(new Components({
           peerId: peerId,
@@ -249,14 +249,14 @@ describe('pubsub base implementation', () => {
         registrarB = new MockRegistrar()
 
         pubsubA = new PubsubImplementation({
-          multicodecs: [protocol]
+          multicodecs: new Set([protocol])
         })
         pubsubA.init(new Components({
           peerId: peerIdA,
           registrar: registrarA
         }))
         pubsubB = new PubsubImplementation({
-          multicodecs: [protocol]
+          multicodecs: new Set([protocol])
         })
         pubsubB.init(new Components({
           peerId: peerIdB,
@@ -345,7 +345,7 @@ describe('pubsub base implementation', () => {
     beforeEach(async () => {
       peerId = await createPeerId()
       pubsub = new PubsubImplementation({
-        multicodecs: [protocol]
+        multicodecs: new Set([protocol])
       })
       pubsub.init(new Components({
         peerId: peerId,
@@ -375,7 +375,7 @@ describe('pubsub base implementation', () => {
     beforeEach(async () => {
       peerId = await createPeerId()
       pubsub = new PubsubImplementation({
-        multicodecs: [protocol]
+        multicodecs: new Set([protocol])
       })
       pubsub.init(new Components({
         peerId: peerId,
@@ -447,7 +447,7 @@ describe('pubsub base implementation', () => {
     beforeEach(async () => {
       peerId = await createPeerId()
       pubsub = new PubsubImplementation({
-        multicodecs: [protocol]
+        multicodecs: new Set([protocol])
       })
       pubsub.init(new Components({
         peerId: peerId,

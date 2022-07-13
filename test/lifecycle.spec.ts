@@ -51,7 +51,7 @@ describe('pubsub base lifecycle', () => {
       }
 
       pubsub = new PubsubProtocol({
-        multicodecs: ['/pubsub/1.0.0']
+        multicodecs: new Set(['/pubsub/1.0.0'])
       })
       pubsub.init(new Components({
         peerId: peerId,
@@ -111,14 +111,14 @@ describe('pubsub base lifecycle', () => {
       registrarB = new MockRegistrar()
 
       pubsubA = new PubsubImplementation({
-        multicodecs: [protocol]
+        multicodecs: new Set([protocol])
       })
       pubsubA.init(new Components({
         peerId: peerIdA,
         registrar: registrarA
       }))
       pubsubB = new PubsubImplementation({
-        multicodecs: [protocol]
+        multicodecs: new Set([protocol])
       })
       pubsubB.init(new Components({
         peerId: peerIdB,
