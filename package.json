@@ -204,7 +204,7 @@
     "delay": "^5.0.0",
     "it-pair": "^2.0.2",
     "p-defer": "^4.0.0",
-    "p-wait-for": "^4.1.0",
+    "p-wait-for": "^5.0.0",
     "protons": "^3.0.4",
     "protons-runtime": "^1.0.4",
     "sinon": "^14.0.0",
