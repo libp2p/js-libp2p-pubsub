@@ -206,7 +206,7 @@
     "p-defer": "^4.0.0",
     "p-wait-for": "^5.0.0",
     "protons": "^5.1.0",
-    "protons-runtime": "^3.1.0",
+    "protons-runtime": "^4.0.0",
     "sinon": "^14.0.0",
     "util": "^0.12.4"
   }
