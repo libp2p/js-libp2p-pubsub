@@ -66,12 +66,24 @@ export const ensureArray = function <T> (maybeArray: T | T[]) {
   return maybeArray
 }
 
+const isSigned = (message: PubSubRPCMessage): boolean => {
+  if ((message.sequenceNumber == null) || (message.from == null) || (message.signature == null)) {
+    return false
+  }
+  // if a public key is present in the `from` field, the message should be signed
+  const msgFrom = peerIdFromBytes(message.from)
+  if (msgFrom.publicKey != null) {
+    return true
+  }
+  return message.key != null
+}
+
 export const toMessage = (message: PubSubRPCMessage): Message => {
   if (message.from == null) {
     throw new CodeError('RPC message was missing from', codes.ERR_MISSING_FROM)
   }
 
-  if (message.sequenceNumber == null || message.from == null || message.signature == null || message.key == null) {
+  if (!isSigned(message)) {
     return {
       type: 'unsigned',
       topic: message.topic ?? '',
@@ -83,9 +95,11 @@ export const toMessage = (message: PubSubRPCMessage): Message => {
     type: 'signed',
     from: peerIdFromBytes(message.from),
     topic: message.topic ?? '',
-    sequenceNumber: bigIntFromBytes(message.sequenceNumber),
+    sequenceNumber: bigIntFromBytes(message.sequenceNumber ?? new Uint8Array(0)),
     data: message.data ?? new Uint8Array(0),
-    signature: message.signature,
+    // @ts-expect-error this is checked in `isSigned`
+    signature: message.signature ?? new Uint8Array(0),
+    // @ts-expect-error key need not be defined
     key: message.key
   }
 }
