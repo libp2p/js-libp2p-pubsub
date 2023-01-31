@@ -3,7 +3,7 @@ import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
 import { toString as uint8ArrayToString } from 'uint8arrays/to-string'
 import { sha256 } from 'multiformats/hashes/sha2'
 import type { Message, PubSubRPCMessage } from '@libp2p/interface-pubsub'
-import { peerIdFromBytes } from '@libp2p/peer-id'
+import { peerIdFromBytes, peerIdFromKeys } from '@libp2p/peer-id'
 import { codes } from './errors.js'
 import { CodeError } from '@libp2p/interfaces/errors'
 
@@ -66,24 +66,30 @@ export const ensureArray = function <T> (maybeArray: T | T[]) {
   return maybeArray
 }
 
-const isSigned = (message: PubSubRPCMessage): boolean => {
+const isSigned = async (message: PubSubRPCMessage): Promise<boolean> => {
   if ((message.sequenceNumber == null) || (message.from == null) || (message.signature == null)) {
     return false
   }
   // if a public key is present in the `from` field, the message should be signed
-  const msgFrom = peerIdFromBytes(message.from)
-  if (msgFrom.publicKey != null) {
+  const fromID = peerIdFromBytes(message.from)
+  if (fromID.publicKey != null) {
     return true
   }
-  return message.key != null
+
+  if (message.key != null) {
+    const signingID = await peerIdFromKeys(message.key)
+    return signingID.equals(fromID)
+  }
+
+  return false
 }
 
-export const toMessage = (message: PubSubRPCMessage): Message => {
+export const toMessage = async (message: PubSubRPCMessage): Promise<Message> => {
   if (message.from == null) {
     throw new CodeError('RPC message was missing from', codes.ERR_MISSING_FROM)
   }
 
-  if (!isSigned(message)) {
+  if (!await isSigned(message)) {
     return {
       type: 'unsigned',
       topic: message.topic ?? '',
@@ -97,7 +103,6 @@ export const toMessage = (message: PubSubRPCMessage): Message => {
     topic: message.topic ?? '',
     sequenceNumber: bigIntFromBytes(message.sequenceNumber ?? new Uint8Array(0)),
     data: message.data ?? new Uint8Array(0),
-    // @ts-expect-error this is checked in `isSigned`
     signature: message.signature ?? new Uint8Array(0),
     // @ts-expect-error key need not be defined
     key: message.key

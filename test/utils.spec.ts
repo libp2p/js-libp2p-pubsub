@@ -97,6 +97,8 @@ describe('utils', () => {
   })
 
   it('ensures message is signed if public key is extractable', async () => {
+    const dummyPeerID = await PeerIdFactory.createRSAPeerId()
+
     const cases: PubSubRPCMessage[] = [
       {
         from: (await PeerIdFactory.createSecp256k1PeerId()).toBytes(),
@@ -113,18 +115,17 @@ describe('utils', () => {
         signature: new Uint8Array(0)
       },
       {
-        from: peerIdFromString('QmPNdSYk5Rfpo5euNqwtyizzmKXMNHdXeLjTQhcN4yfX22').toBytes(),
+        from: dummyPeerID.toBytes(),
         topic: 'test',
         data: new Uint8Array(0),
         sequenceNumber: utils.bigIntToBytes(1n),
         signature: new Uint8Array(0),
-        // dummy value which will fail verification
-        key: new Uint8Array(0)
+        key: dummyPeerID.publicKey
       }
     ]
     const expected = ['signed', 'unsigned', 'signed']
 
-    const actual = cases.map(utils.toMessage).map(m => m.type)
+    const actual = (await Promise.all(cases.map(utils.toMessage))).map(m => m.type)
 
     expect(actual).to.deep.equal(expected)
   })
