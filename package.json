@@ -199,7 +199,7 @@
   },
   "devDependencies": {
     "@libp2p/peer-id-factory": "^2.0.0",
-    "aegir": "^37.9.1",
+    "aegir": "^38.1.4",
     "delay": "^5.0.0",
     "it-pair": "^2.0.2",
     "p-defer": "^4.0.0",
